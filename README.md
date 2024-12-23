@@ -1,5 +1,5 @@
 # SpydrNotes
 
-## Contributers
+## Contributors
 - Ajwad Tahmid
 - Jason Ma
