@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import connectMongoDB from "./db/connectMongoDB.js";
 import authRoutes from "./routes/auth.routes.js";
+import noteRoutes from "./routes/note.routes.js";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use(express.urlencoded({ extended: true })); // to parse form data (urlencod
 app.use(cookieParser());  // to parse cookies
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/notes", noteRoutes);
 
 // Second argument is a callback function that will be called when the server is running and ready to receive responses.
 app.listen(PORT, () => {

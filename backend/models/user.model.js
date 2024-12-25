@@ -20,7 +20,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-    }
+    },
+    notes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Note",
+            default: []
+        }
+    ],
+    mindmaps: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Mindmap",
+            default: []
+        }
+    ]
 }, { timestamps: true }
 );
 

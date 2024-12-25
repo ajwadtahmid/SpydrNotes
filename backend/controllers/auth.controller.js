@@ -47,7 +47,9 @@ export const signup = async (req, res) => {
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                notes: newUser.notes,
+                mindmaps: newUser.mindmaps,
             })
         } else {
             res.status(400).json({ error: "Invalid user data"});
@@ -57,7 +59,7 @@ export const signup = async (req, res) => {
         console.log("Error in signup controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error"});
     }
-}
+};
 
 export const login = async (req, res) => {
 	try {
@@ -76,6 +78,8 @@ export const login = async (req, res) => {
 			fullName: user.fullName,
 			username: user.username,
 			email: user.email,
+            notes: user.notes,
+            mindmaps: user.mindmaps,
 		});
 	} catch (error) {
 		console.log("Error in login controller", error.message);
@@ -91,14 +95,6 @@ export const logout = async (req, res) => {
 		console.log("Error in logout controller", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
-};
-
-export const getMe = async(req, res) => {
-    try {
-        const user = await User.findById(req.user._id);
-    } catch {
-
-    }
 };
 
 export const authCheck = async (req, res) => {
