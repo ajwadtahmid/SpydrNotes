@@ -1,16 +1,18 @@
 import React from "react";
 import spydrLogo from "../../assets/spydrnotesLogo.webp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import PasswordInput from "../../components/Input/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 import { useState } from "react";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Login = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,7 +30,26 @@ const Login = () => {
     setError("");
 
     // Login API Call
-  }
+    try {
+      const response = await axiosInstance.post("/api/auth/login", {
+        username: email,
+        password: password,
+      });
+
+      // Handle successful login response
+      if (response.data) {
+        console.log("Login Successful");
+        // localStorage.setItem("token", response.data.accessToken);
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occured. Please try again.");
+      }
+    }
+  };
 
   return (
     <>
@@ -47,7 +68,12 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={handleLogin}>
+          <form
+            action="#"
+            method="POST"
+            className="space-y-6"
+            onSubmit={handleLogin}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -59,7 +85,7 @@ const Login = () => {
                 <input
                   id="email"
                   name="email"
-                  value = { email }
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   placeholder="Email"
@@ -70,11 +96,12 @@ const Login = () => {
               </div>
             </div>
 
-            <PasswordInput value= { password} 
+            <PasswordInput
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            { error && <p className="text-red-500 text-sm/6">{error}</p> }
+            {error && <p className="text-red-500 text-sm/6">{error}</p>}
 
             <div>
               <button
