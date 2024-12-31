@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
-import "./components/Tiptap/styles.scss"
 
 // dompurify to purify text and save to db
 

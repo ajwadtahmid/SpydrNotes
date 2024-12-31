@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
+import Editor from "../../components/Tiptap/Editor";
 
 const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -42,7 +41,8 @@ const Home = () => {
       ) : (
         <p>Loading user information...</p>
       )}
-      </div>
+      <Editor />
+    </div>
   );
 };
 
