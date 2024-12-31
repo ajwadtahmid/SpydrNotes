@@ -5,6 +5,8 @@ import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import "./components/Tiptap/styles.scss"
 
+// dompurify to purify text and save to db
+
 const routes = (
   <Router>
     <Routes>

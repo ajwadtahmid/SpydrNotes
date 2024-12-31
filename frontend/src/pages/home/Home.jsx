@@ -3,17 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import axiosInstance from "../../utils/axiosInstance";
-import TextEditor from "../../components/Tiptap/TextEditor";
 
 const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
-
-  // Initialize the TipTap editor
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Start typing here...</p>", // Initial content for the editor
-  });
 
   // Get User Info
   const getUserInfo = async () => {
