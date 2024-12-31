@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import axiosInstance from "../../utils/axiosInstance";
+import TextEditor from "../../components/Tiptap/TextEditor";
 
 const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -42,6 +43,7 @@ const Home = () => {
       ) : (
         <p>Loading user information...</p>
       )}
+      <TextEditor />
       </div>
   );
 };
