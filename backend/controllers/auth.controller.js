@@ -62,30 +62,43 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-	try {
-		const { username, password } = req.body;
-		const user = await User.findOne({ username });
-		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
-
-		if (!user || !isPasswordCorrect) {
-			return res.status(400).json({ error: "Invalid username or password" });
-		}
-
-		generateTokenAndSetCookie(user._id, res);
-
-		res.status(200).json({
-			_id: user._id,
-			fullName: user.fullName,
-			username: user.username,
-			email: user.email,
-            notes: user.notes,
-            mindmaps: user.mindmaps,
-		});
-	} catch (error) {
-		console.log("Error in login controller", error.message);
-		res.status(500).json({ error: "Internal Server Error" });
-	}
-};
+    try {
+      const { identifier, password } = req.body;
+  
+      // Check if identifier is an email
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+  
+      // Find user by email or username
+      const user = isEmail
+        ? await User.findOne({ email: identifier })
+        : await User.findOne({ username: identifier });
+  
+      if (!user) {
+        return res.status(400).json({ error: "Invalid username or email" });
+      }
+  
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordCorrect) {
+        return res.status(400).json({ error: "Invalid password" });
+      }
+  
+      generateTokenAndSetCookie(user._id, res);
+  
+      res.status(200).json({
+        _id: user._id,
+        fullName: user.fullName,
+        username: user.username,
+        email: user.email,
+        notes: user.notes,
+        mindmaps: user.mindmaps,
+      });
+    } catch (error) {
+      console.log("Error in login controller", error.message);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+  
 
 export const logout = async (req, res) => {
 	try {
