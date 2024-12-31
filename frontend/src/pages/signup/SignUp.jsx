@@ -8,7 +8,6 @@ import { useState } from "react";
 import axiosInstance from "../../utils/axiosInstance";
 
 const SignUp = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -79,7 +78,12 @@ const SignUp = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={handleSignUp}>
+          <form
+            action="#"
+            method="POST"
+            className="space-y-6"
+            onSubmit={handleSignUp}
+          >
             <div>
               <label
                 htmlFor="email"

@@ -1,5 +1,10 @@
-import express from 'express';
-import { createNote, deleteNote, getNote, updateNote } from '../controllers/note.controller.js';
+import express from "express";
+import {
+  createNote,
+  deleteNote,
+  getNote,
+  updateNote,
+} from "../controllers/note.controller.js";
 
 const noteRouter = express.Router();
 
@@ -14,6 +19,5 @@ noteRouter.get("/:id", getNote);
 
 // /api/note/update/:noteId
 noteRouter.put("/update/:id", updateNote);
-
 
 export default noteRouter;

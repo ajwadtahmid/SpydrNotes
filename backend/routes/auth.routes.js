@@ -1,6 +1,11 @@
-import express from 'express';
-import { signup, login, logout, authCheck } from '../controllers/auth.controller.js';
-import { protectedRoute } from '../middleware/protectedRoute.js';
+import express from "express";
+import {
+  signup,
+  login,
+  logout,
+  authCheck,
+} from "../controllers/auth.controller.js";
+import { protectedRoute } from "../middleware/protectedRoute.js";
 
 const router = express.Router();
 
@@ -15,6 +20,5 @@ router.post("/logout", logout);
 
 // /api/auth/authcheck
 router.get("/authcheck", protectedRoute, authCheck);
-
 
 export default router;
