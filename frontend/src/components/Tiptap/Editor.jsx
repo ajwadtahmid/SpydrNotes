@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -11,8 +11,16 @@ import Code from "@tiptap/extension-code";
 import Color from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import "./Editor.css";
+import Dropdown from "react-bootstrap/Dropdown";
+import CodeBlock from "@tiptap/extension-code-block";
+import FontFamily from "@tiptap/extension-font-family";
+import { set } from "mongoose";
 
 const Editor = () => {
+
+  const [selectedFont, setSelectedFont] = useState("Inter");
+  const [selectedHierarchy, setSelectedHierarchy] = useState("H1");
+
   // Set up the editor with required extensions
   const editor = useEditor({
     extensions: [
@@ -38,6 +46,8 @@ const Editor = () => {
       }),
       Code,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      CodeBlock,
+      FontFamily,
     ],
     content: `
       <h2>Welcome to the Editor</h2>
@@ -54,46 +64,88 @@ const Editor = () => {
       {/* Toolbar for the buttons */}
       <div className="editor-menu">
         {/* Heading buttons */}
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-          }
-        >
-          H1
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 2 }) ? "is-active" : ""
-          }
-        >
-          H2
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 3 }) ? "is-active" : ""
-          }
-        >
-          H3
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 4 }) ? "is-active" : ""
-          }
-        >
-          H4
-        </button>
+        <div className="hierarchy">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-heading">
+              { selectedHierarchy}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 1 }).run();
+                  setSelectedHierarchy("H1");
+                }}
+              >
+                H1
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 2 }).run();
+                  setSelectedHierarchy("H2");
+                }}
+              >
+                H2
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 3 }).run();
+                  setSelectedHierarchy("H3");
+                }}
+              >
+                H3
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 4 }).run();
+                  setSelectedHierarchy("H4");
+                }}
+              >
+                H4
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+
+        {/* Font familybuttons */}
+        <div className="font-family">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-heading">
+              { selectedFont}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Inter").run();
+                  setSelectedFont("Inter");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Inter" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Inter
+              </Dropdown.Item>
+
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run();
+                  setSelectedFont("Comic Sans");
+                }}
+                className={
+                  editor.isActive("textStyle", {
+                    fontFamily: '"Comic Sans MS", "Comic Sans"',
+                  })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Comic Sans
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
         {/* List buttons */}
         <button
@@ -159,6 +211,12 @@ const Editor = () => {
           disabled={!editor.can().redo()}
         >
           Redo
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={editor.isActive("codeBlock") ? "is-active" : ""}
+        >
+          Toggle code block
         </button>
       </div>
 

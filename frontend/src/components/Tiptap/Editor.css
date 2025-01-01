@@ -153,3 +153,36 @@
   font-size: 1rem;
   line-height: 1.5;
 }
+
+.bubble-menu {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.bubble-menu button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  border: none;
+  background: #f4f4f4;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bubble-menu button.is-active {
+  background: #958df1;
+  color: white;
+}
+
+.bubble-menu button:hover {
+  background: #e0e0e0;
+}
+
+.is-active {
+  background-color: #6c63ff; /* Bootstrap primary color */
+  color: white;
+}

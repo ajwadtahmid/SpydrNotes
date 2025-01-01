@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 // dompurify to purify text and save to db
 
