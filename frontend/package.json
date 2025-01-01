@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@tiptap/extension-bold": "^2.11.0",
+    "@tiptap/extension-bubble-menu": "^2.11.0",
     "@tiptap/extension-code-block-lowlight": "^2.11.0",
     "@tiptap/extension-color": "^2.11.0",
     "@tiptap/extension-font-family": "^2.11.0",
+    "@tiptap/extension-highlight": "^2.11.0",
     "@tiptap/extension-italic": "^2.11.0",
     "@tiptap/extension-text-align": "^2.11.0",
     "@tiptap/extension-text-style": "^2.11.0",

@@ -15,6 +15,8 @@ import bulletListIcon from "./bullet-list.svg";
 import orderedListIcon from "./ordered-list.svg";
 import undoIcon from "./undo.svg";
 import redoIcon from "./redo.svg";
+import highlightIcon from "./highlight.svg";
+import paletteIcon from "./palette.svg";
 
 const icons = {
     heading1: headingIcon1,
@@ -32,6 +34,8 @@ const icons = {
     code: codeSlashIcon,
     bulletList: bulletListIcon,
     orderedList: orderedListIcon,
+    highlight: highlightIcon,
+    palette: paletteIcon,
     undo: undoIcon,
     redo: redoIcon,
 };
