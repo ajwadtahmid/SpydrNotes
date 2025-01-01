@@ -103,8 +103,8 @@
 /* Basic button styles */
 .editor-menu button {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0.2rem;
+  padding: 0.25rem 0.5rem; /* (top-bottom) (left-right) */
+  margin: 0 rem; /* White space between buttons */
   font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
@@ -114,6 +114,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  height: 2rem;
 }
 
 .editor-menu button:hover {
@@ -139,7 +140,7 @@
   margin-bottom: 1rem;
   display: flex;
   flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
-  gap: 0.5rem; /* Space between buttons */
+  gap: 0 rem; /* Space between buttons */
 }
 
 /* Ensure the editor content is nicely spaced */
@@ -186,3 +187,14 @@
   background-color: #6c63ff; /* Bootstrap primary color */
   color: white;
 }
+
+.dropdown-toggle img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1px; /* Optional spacing between the icon and arrow */
+}
+
+.dropdown-toggle::after {
+  color: var(--your-color-variable, #000000);
+}
+

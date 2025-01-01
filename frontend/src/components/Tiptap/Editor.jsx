@@ -10,16 +10,18 @@ import Heading from "@tiptap/extension-heading";
 import Code from "@tiptap/extension-code";
 import Color from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
+import Strike from "@tiptap/extension-strike";
 import "./Editor.css";
 import Dropdown from "react-bootstrap/Dropdown";
-import CodeBlock from "@tiptap/extension-code-block";
 import FontFamily from "@tiptap/extension-font-family";
 import { set } from "mongoose";
+import icons from "../../assets/icons";
 
 const Editor = () => {
-
   const [selectedFont, setSelectedFont] = useState("Inter");
-  const [selectedHierarchy, setSelectedHierarchy] = useState("H1");
+  const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
+  const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
+  const [selectedList, setSelectedList] = useState(icons.bulletList);
 
   // Set up the editor with required extensions
   const editor = useEditor({
@@ -41,12 +43,12 @@ const Editor = () => {
       Bold,
       Italic,
       Underline,
+      Strike,
       Heading.configure({
         levels: [1, 2, 3, 4, 5, 6],
       }),
       Code,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
-      CodeBlock,
       FontFamily,
     ],
     content: `
@@ -67,41 +69,41 @@ const Editor = () => {
         <div className="hierarchy">
           <Dropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-heading">
-              { selectedHierarchy}
+              <img src={selectedHierarchy} alt="Heading" />
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
                   editor.chain().focus().toggleHeading({ level: 1 }).run();
-                  setSelectedHierarchy("H1");
+                  setSelectedHierarchy(icons.heading1);
                 }}
               >
-                H1
+                <img src={icons.heading1} alt="Heading 1" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   editor.chain().focus().toggleHeading({ level: 2 }).run();
-                  setSelectedHierarchy("H2");
+                  setSelectedHierarchy(icons.heading2);
                 }}
               >
-                H2
+                <img src={icons.heading2} alt="Heading 2" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   editor.chain().focus().toggleHeading({ level: 3 }).run();
-                  setSelectedHierarchy("H3");
+                  setSelectedHierarchy(icons.heading3);
                 }}
               >
-                H3
+                <img src={icons.heading3} alt="Heading 3" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
                   editor.chain().focus().toggleHeading({ level: 4 }).run();
-                  setSelectedHierarchy("H4");
+                  setSelectedHierarchy(icons.heading4);
                 }}
               >
-                H4
+                <img src={icons.heading4} alt="Heading 4" />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -111,7 +113,7 @@ const Editor = () => {
         <div className="font-family">
           <Dropdown>
             <Dropdown.Toggle variant="secondary" id="dropdown-heading">
-              { selectedFont}
+              {selectedFont}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
@@ -130,7 +132,11 @@ const Editor = () => {
 
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().setFontFamily('"Comic Sans MS", "Comic Sans"').run();
+                  editor
+                    .chain()
+                    .focus()
+                    .setFontFamily('"Comic Sans MS", "Comic Sans"')
+                    .run();
                   setSelectedFont("Comic Sans");
                 }}
                 className={
@@ -148,49 +154,109 @@ const Editor = () => {
         </div>
 
         {/* List buttons */}
-        <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList") ? "is-active" : ""}
-        >
-          Bullet List
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive("orderedList") ? "is-active" : ""}
-        >
-          Ordered List
-        </button>
+        <div className="list-buttons">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-list">
+              <img src={selectedList} alt="List" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleBulletList().run();
+                  setSelectedList(icons.bulletList);
+                }}
+                className={editor.isActive("bulletList") ? "is-active" : ""}
+              >
+                <img src={icons.bulletList} alt="Bullet List" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleOrderedList().run();
+                  setSelectedList(icons.orderedList);
+                }}
+                className={editor.isActive("orderedList") ? "is-active" : ""}
+              >
+                <img src={icons.orderedList} alt="Ordered List" />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
         {/* Inline formatting buttons */}
         <button onClick={() => editor.chain().focus().toggleBold().run()}>
-          Bold
+          <img src={icons.bold} alt="Bold" />
         </button>
         <button onClick={() => editor.chain().focus().toggleItalic().run()}>
-          Italic
+          <img src={icons.italic} alt="Italic" />
         </button>
         <button onClick={() => editor.chain().focus().toggleUnderline().run()}>
-          Underline
+          <img src={icons.underline} alt="Underline" />
+        </button>
+        <button onClick={() => editor.chain().focus().toggleStrike().run()}>
+          <img src={icons.strikethrough} alt="Strike" />
         </button>
         <button onClick={() => editor.chain().focus().toggleCode().run()}>
-          Code
+          <img src={icons.code} alt="Code" />
         </button>
 
-        {/* Text alignment buttons */}
-        <button
-          onClick={() => editor.chain().focus().setTextAlign("left").run()}
-        >
-          Left
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        >
-          Center
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        >
-          Right
-        </button>
+        {/* Text alignment dropdown */}
+        <div className="text-alignment">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-alignment">
+              <img src={selectedAlignment} alt="Text Alignment" />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setTextAlign("left").run();
+                  setSelectedAlignment(icons.alignLeft);
+                }}
+                className={
+                  editor.isActive({ textAlign: "left" }) ? "is-active" : ""
+                }
+              >
+                <img src={icons.alignLeft} alt="Align Left" />
+              </Dropdown.Item>
+
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setTextAlign("center").run();
+                  setSelectedAlignment(icons.alignCenter);
+                }}
+                className={
+                  editor.isActive({ textAlign: "center" }) ? "is-active" : ""
+                }
+              >
+                <img src={icons.alignCenter} alt="Align Center" />
+              </Dropdown.Item>
+
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setTextAlign("right").run();
+                  setSelectedAlignment(icons.alignRight);
+                }}
+                className={
+                  editor.isActive({ textAlign: "right" }) ? "is-active" : ""
+                }
+              >
+                <img src={icons.alignRight} alt="Align Right" />
+              </Dropdown.Item>
+
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setTextAlign("justify").run();
+                  setSelectedAlignment(icons.alignJustify);
+                }}
+                className={
+                  editor.isActive({ textAlign: "justify" }) ? "is-active" : ""
+                }
+              >
+                <img src={icons.alignJustify} alt="Align Justify" />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
         {/* Color button */}
         <button
@@ -204,24 +270,18 @@ const Editor = () => {
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().undo()}
         >
-          Undo
+          <img src={icons.undo} alt="Undo" />
         </button>
         <button
           onClick={() => editor.chain().focus().redo().run()}
           disabled={!editor.can().redo()}
         >
-          Redo
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive("codeBlock") ? "is-active" : ""}
-        >
-          Toggle code block
+          <img src={icons.redo} alt="Redo" />
         </button>
       </div>
 
       {/* The actual editor content */}
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="tiptap" />
     </div>
   );
 };
