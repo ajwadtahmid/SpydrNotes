@@ -1,0 +1,39 @@
+/* Sidebar.css */
+.sidebar-container {
+    width: 250px;
+    background-color: #f8f9fa;
+    height: 100vh;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between; /* Positions text on the left and button on the right */
+    align-items: center; /* Vertically aligns items */
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-toggle-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .sidebar-toggle-btn img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .sidebar-nav {
+    margin-top: 20px;
+  }
+  
+  .sidebar-username {
+    font-size: 1.2em;
+    font-weight: bold;
+    white-space: nowrap; /* Ensures the text doesn’t wrap to a new line */
+    padding-top: 6px;
+  }
