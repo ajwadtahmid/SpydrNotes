@@ -12,7 +12,7 @@ import Color from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import Strike from "@tiptap/extension-strike";
 import FontFamily from "@tiptap/extension-font-family";
-import Highlight from '@tiptap/extension-highlight'
+import Highlight from "@tiptap/extension-highlight";
 import { Dropdown } from "react-bootstrap";
 import icons from "../../assets/icons";
 import "./Editor.css";
@@ -24,7 +24,7 @@ const Editor = () => {
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
-  const colorInputRef = useRef(null);
+  // const colorInputRef = useRef(null);
 
   const editor = useEditor({
     extensions: [
@@ -52,7 +52,7 @@ const Editor = () => {
       Code,
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       FontFamily,
-      Highlight.configure({ multicolor: true })
+      Highlight.configure({ multicolor: true }),
     ],
     content: `
       <h2>Welcome to the Editor</h2>
@@ -135,6 +135,7 @@ const Editor = () => {
               {selectedFont}
             </Dropdown.Toggle>
             <Dropdown.Menu>
+              {/* Inter Font */}
               <Dropdown.Item
                 onClick={() => {
                   editor.chain().focus().setFontFamily("Inter").run();
@@ -148,24 +149,131 @@ const Editor = () => {
               >
                 Inter
               </Dropdown.Item>
+
+              {/* EB Garamond Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily('"EB Garamond"').run();
+                  setSelectedFont("EB Garamond");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: '"EB Garamond"' })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                EB Garamond
+              </Dropdown.Item>
+
+              {/* Fira Code Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily('"Fira Code"').run();
+                  setSelectedFont("Fira Code");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: '"Fira Code"' })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Fira Code
+              </Dropdown.Item>
+
+              {/* JetBrains Mono Font */}
               <Dropdown.Item
                 onClick={() => {
                   editor
                     .chain()
                     .focus()
-                    .setFontFamily('"Comic Sans MS", "Comic Sans"')
+                    .setFontFamily('"JetBrains Mono"')
                     .run();
-                  setSelectedFont("Comic Sans");
+                  setSelectedFont("JetBrains Mono");
                 }}
                 className={
                   editor.isActive("textStyle", {
-                    fontFamily: '"Comic Sans MS", "Comic Sans"',
+                    fontFamily: '"JetBrains Mono"',
                   })
                     ? "is-active"
                     : ""
                 }
               >
-                Comic Sans
+                JetBrains Mono
+              </Dropdown.Item>
+
+              {/* Lato Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Lato").run();
+                  setSelectedFont("Lato");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Lato" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Lato
+              </Dropdown.Item>
+
+              {/* Merriweather Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Merriweather").run();
+                  setSelectedFont("Merriweather");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Merriweather" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Merriweather
+              </Dropdown.Item>
+
+              {/* Pacifico Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Pacifico").run();
+                  setSelectedFont("Pacifico");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Pacifico" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Pacifico
+              </Dropdown.Item>
+
+              {/* Poppins Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Poppins").run();
+                  setSelectedFont("Poppins");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Poppins" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Poppins
+              </Dropdown.Item>
+
+              {/* Roboto Font */}
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setFontFamily("Roboto").run();
+                  setSelectedFont("Roboto");
+                }}
+                className={
+                  editor.isActive("textStyle", { fontFamily: "Roboto" })
+                    ? "is-active"
+                    : ""
+                }
+              >
+                Roboto
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

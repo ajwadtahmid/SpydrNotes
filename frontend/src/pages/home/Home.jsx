@@ -2,30 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import Editor from "../../components/Tiptap/Editor";
+import EditorTitle from "../../components/Tiptap/EditorTitle";
 
 const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
-  // Get User Info
   const getUserInfo = async () => {
     try {
       const response = await axiosInstance.get("/api/auth/authcheck");
       if (response.data) {
         setUserInfo(response.data);
-        console.log(userInfo);
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response?.status === 401) {
         localStorage.clear();
         navigate("/login");
       }
     }
   };
 
+  const saveTitle = async (title) => {
+    try {
+      const response = await axiosInstance.post("/api/title/save", { title });
+      console.log("Title saved successfully:", response.data);
+    } catch (error) {
+      console.error("Error saving title:", error);
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
-    console.log(userInfo);
     return () => {};
   }, []);
 
@@ -41,6 +48,7 @@ const Home = () => {
       ) : (
         <p>Loading user information...</p>
       )}
+      <EditorTitle saveTitle={saveTitle} />
       <Editor />
     </div>
   );

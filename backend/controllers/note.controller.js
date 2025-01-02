@@ -68,21 +68,40 @@ export const getNote = async (req, res) => {
   }
 };
 
-export const updateNote = async (req, res) => {
+export const updateNoteBody = async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
 
-    const { title, body } = req.body;
+    const { body } = req.body;
 
-    note.title = title;
     note.body = body;
     await note.save();
-    res.status(200).json({ message: "Note updated successfully", note });
+    res.status(200).json({ message: "Body updated successfully", note });
   } catch (error) {
-    console.log("Error in updateNote controller: ", error.message);
+    console.log("Error in updateNoteBody controller: ", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Controller to update a note's title
+export const updateNoteTitle = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    const { title } = req.body;
+    note.title = title;
+    await note.save();
+
+    res.status(200).json({ message: "Title updated successfully", note: note });
+  } catch (error) {
+    console.error("Error updating title:", error);
+    res.status(500).json({ error: "An error occurred while updating the title" });
   }
 };

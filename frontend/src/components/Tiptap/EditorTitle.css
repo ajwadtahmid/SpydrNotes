@@ -1,0 +1,16 @@
+.title-editor {
+  margin-bottom: 10px;
+  width: 100%; /* Ensures the container spans the entire width */
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.title-input {
+  width: 100%; /* Makes the input span the full width of its container */
+  padding: 10px;
+  font-size: 1.25rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left; /* Aligns placeholder and text to the left */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
