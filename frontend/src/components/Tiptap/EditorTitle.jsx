@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./EditorTitle.css";
 
-const EditorTitle = ({ saveTitle }) => {
-  const [title, setTitle] = useState("");
+const EditorTitle = ({ noteTitle = "Untitled", saveTitle }) => {
+  const [title, setTitle] = useState(noteTitle !== "Untitled" ? noteTitle : "");
   const [debouncedTitle, setDebouncedTitle] = useState("");
 
   const handleChange = (event) => {
@@ -18,10 +18,13 @@ const EditorTitle = ({ saveTitle }) => {
   }, [title]);
 
   useEffect(() => {
-    if (debouncedTitle) {
-      saveTitle(debouncedTitle); // Call save function when debounce settles
-    }
+    saveTitle(debouncedTitle); // Always call saveTitle, even for empty strings
   }, [debouncedTitle, saveTitle]);
+
+  useEffect(() => {
+    // Update the title state when noteTitle changes
+    setTitle(noteTitle !== "Untitled" ? noteTitle : "");
+  }, [noteTitle]);
 
   return (
     <div className="title-editor">
@@ -37,6 +40,7 @@ const EditorTitle = ({ saveTitle }) => {
 };
 
 export default EditorTitle;
+
 
 
 // import React, { useState } from "react";
