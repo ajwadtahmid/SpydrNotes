@@ -13,6 +13,7 @@
   "type": "module",
   "license": "ISC",
   "dependencies": {
+    "@tiptap/extension-placeholder": "^2.11.0",
     "@tiptap/extension-text-align": "^2.11.0",
     "@tiptap/extension-underline": "^2.11.0",
     "axios": "^1.7.9",

@@ -207,3 +207,11 @@
 .dropdown-toggle::after {
   color: var(--your-color-variable, #000000);
 }
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd; /* Placeholder text color */
+  content: "Start typing here..."; /* Replace with your desired placeholder text */
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

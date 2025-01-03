@@ -13,6 +13,7 @@ import ListItem from "@tiptap/extension-list-item";
 import Strike from "@tiptap/extension-strike";
 import FontFamily from "@tiptap/extension-font-family";
 import Highlight from "@tiptap/extension-highlight";
+import PlaceHolder from "@tiptap/extension-placeholder";
 import { Dropdown } from "react-bootstrap";
 import icons from "../../assets/icons";
 import "./Editor.css";
@@ -54,11 +55,13 @@ const Editor = () => {
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       FontFamily,
       Highlight.configure({ multicolor: true }),
+      PlaceHolder,
     ],
-    content: `
-      <h2>Welcome to the Editor</h2>
-      <p>Try out the various features in the toolbar.</p>
-    `,
+    // content: `
+    //   <h2>Welcome to the Editor</h2>
+    //   <p>Try out the various features in the toolbar.</p>
+    // `,
+    content: "",
     onUpdate: ({ editor }) => {
       // Update the HTML content whenever the editor changes
       setEditorHTML(editor.getHTML());
