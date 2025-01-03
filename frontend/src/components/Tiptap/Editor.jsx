@@ -24,7 +24,8 @@ const Editor = () => {
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
-  // const colorInputRef = useRef(null);
+  const colorInputRef = useRef(null);
+  const [editorHTML, setEditorHTML] = useState("");
 
   const editor = useEditor({
     extensions: [
@@ -58,6 +59,10 @@ const Editor = () => {
       <h2>Welcome to the Editor</h2>
       <p>Try out the various features in the toolbar.</p>
     `,
+    onUpdate: ({ editor }) => {
+      // Update the HTML content whenever the editor changes
+      setEditorHTML(editor.getHTML());
+    },
   });
 
   if (!editor) {
@@ -360,6 +365,11 @@ const Editor = () => {
 
       {/* Editor Content */}
       <EditorContent editor={editor} className="tiptap" />
+      {/* Render HTML content below the editor */}
+      <div className="editor-html-preview">
+        <h3>HTML Output:</h3>
+        <pre>{editorHTML}</pre>
+      </div>
     </div>
   );
 };

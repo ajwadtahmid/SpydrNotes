@@ -1,0 +1,24 @@
+/* Home.css */
+.home-container {
+    display: flex;
+    align-items: flex-start; /* Ensure items align at the top */
+  }
+  
+  .home-main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .home-toggle-btn {
+    margin-top: 0; /* Ensure consistent alignment */
+    margin-bottom: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .home-toggle-btn img {
+    width: 30px;
+    height: 30px;
+  }
+  

@@ -17,6 +17,8 @@ import undoIcon from "./undo.svg";
 import redoIcon from "./redo.svg";
 import highlightIcon from "./highlight.svg";
 import paletteIcon from "./palette.svg";
+import sidebarUnfoldIcon from "./sidebar-unfold.svg";
+import sidebarFoldIcon from "./sidebar-fold.svg";
 
 const icons = {
     heading1: headingIcon1,
@@ -38,6 +40,8 @@ const icons = {
     palette: paletteIcon,
     undo: undoIcon,
     redo: redoIcon,
+    sidebarUnfold: sidebarUnfoldIcon,
+    sidebarFold: sidebarFoldIcon,
 };
 
 export default icons;
