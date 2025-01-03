@@ -37,3 +37,31 @@
     white-space: nowrap; /* Ensures the text doesn’t wrap to a new line */
     padding-top: 6px;
   }
+
+  
+  .sidebar-notes .note-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align icon and text to the left */
+    width: 100%; /* Ensure the button fits the sidebar width */
+    padding: 4px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding in the button's width */
+    text-align: left; /* Align text inside the button to the left */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show ellipsis for long text */
+  }
+  
+  .sidebar-notes .note-icon {
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+    margin-right: 10px; /* Space between icon and text */
+    flex-shrink: 0; /* Prevent icon from resizing */
+  }
+  
+  /* Optional: Add hover effects for the button */
+  .sidebar-notes .note-item:hover {
+    background-color: #f0f0f0; /* Example hover background color */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  

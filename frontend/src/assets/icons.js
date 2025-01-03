@@ -19,6 +19,8 @@ import highlightIcon from "./highlight.svg";
 import paletteIcon from "./palette.svg";
 import sidebarUnfoldIcon from "./sidebar-unfold.svg";
 import sidebarFoldIcon from "./sidebar-fold.svg";
+import fileTextIcon from "./file-text.svg";
+import fileAddIcon from "./file-add.svg";
 
 const icons = {
     heading1: headingIcon1,
@@ -42,6 +44,8 @@ const icons = {
     redo: redoIcon,
     sidebarUnfold: sidebarUnfoldIcon,
     sidebarFold: sidebarFoldIcon,
+    fileText: fileTextIcon,
+    fileAdd: fileAddIcon,
 };
 
 export default icons;
