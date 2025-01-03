@@ -28,16 +28,28 @@ const Home = () => {
 
   const saveTitle = async (title) => {
     try {
-      const response = await axiosInstance.post("/api/title/save", { title });
+      const response = await axiosInstance.put("/api/note//update-title/", {
+        title,
+      });
       console.log("Title saved successfully:", response.data);
     } catch (error) {
       console.error("Error saving title:", error);
     }
   };
 
+  const saveContent = async (content) => {
+    try {
+      const response = await axiosInstance.put("/api/note/update-body/", {
+        body: content,
+      });
+      console.log("Content saved successfully:", response.data);
+    } catch (error) {
+      console.error("Error saving content:", error);
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
-    console.log(userInfo);
     return () => {};
   }, []);
 
@@ -51,20 +63,20 @@ const Home = () => {
       {isSidebarVisible && (
         <Sidebar userInfo={userInfo} toggleSidebar={toggleSidebar} />
       )}
-
-
+      <EditorTitle saveTitle={saveTitle} />
+      <Editor saveContent={saveContent} />
+      <Editor />
       {/* Main Content */}
       <div className="home-main-content">
         {!isSidebarVisible && (
           <button onClick={toggleSidebar} className="home-toggle-btn">
             <img
-              src= { icons.sidebarUnfold } // Replace with your actual path
+              src={icons.sidebarUnfold} // Replace with your actual path
               alt="Unfold Sidebar"
             />
           </button>
         )}
         <h1>Home Page</h1>
-        <EditorTitle saveTitle={saveTitle} />
         <Editor />
       </div>
     </div>

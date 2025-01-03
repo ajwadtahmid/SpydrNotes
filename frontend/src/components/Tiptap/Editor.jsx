@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -20,13 +20,14 @@ import "./Editor.css";
 import HighlightButton from "./HighlightButton";
 import TextColorButton from "./TextColorButton";
 
-const Editor = () => {
+const Editor = ({ saveContent }) => {
   const [selectedFont, setSelectedFont] = useState("Inter");
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
   const colorInputRef = useRef(null);
-  const [editorHTML, setEditorHTML] = useState("");
+  const debounceTimer = useRef(null);
+  const [setEditorHTML] = useState("");
 
   const editor = useEditor({
     extensions: [
@@ -57,16 +58,27 @@ const Editor = () => {
       Highlight.configure({ multicolor: true }),
       PlaceHolder,
     ],
-    // content: `
-    //   <h2>Welcome to the Editor</h2>
-    //   <p>Try out the various features in the toolbar.</p>
-    // `,
     content: "",
     onUpdate: ({ editor }) => {
-      // Update the HTML content whenever the editor changes
-      setEditorHTML(editor.getHTML());
+      const htmlContent = editor.getHTML();
+      setEditorHTML(htmlContent);
+
+      // Debounce to avoid frequent calls
+      clearTimeout(debounceTimer.current);
+      debounceTimer.current = setTimeout(() => {
+        saveContent(htmlContent); // Use the passed prop function to save content
+      }, 1000);
     },
   });
+
+  // Clean up timer on component unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, []);
 
   if (!editor) {
     return null;
@@ -368,11 +380,6 @@ const Editor = () => {
 
       {/* Editor Content */}
       <EditorContent editor={editor} className="tiptap" />
-      {/* Render HTML content below the editor */}
-      <div className="editor-html-preview">
-        <h3>HTML Output:</h3>
-        <pre>{editorHTML}</pre>
-      </div>
     </div>
   );
 };
