@@ -22,14 +22,25 @@ import Note from "../models/note.model.js";
 
 export const createNote = async (req, res) => {
   try {
+    const userId = req.user._id; // Assuming req.user contains the logged-in user's details
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
     const newNote = new Note({
       title: "Untitled",
       body: "",
     });
 
     if (newNote) {
-      await newNote.save(); // save the new note to the database
-      res.status(201).json(newNote);
+      await newNote.save();
+      user.notes.push(newNote._id);
+      await user.save();
+      res
+        .status(201)
+        .json({ message: "Note created successfully", note: newNote });
     } else {
       res.status(400).json({ error: "Unable to create new note" });
     }
@@ -46,6 +57,18 @@ export const deleteNote = async (req, res) => {
     if (!deletedNote) {
       return res.status(404).json({ error: "Note not found" });
     }
+
+    const userId = req.user._id; // Assuming req.user contains the logged-in user's details
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Remove the note from the user's notes array
+    await User.findByIdAndUpdate(userId, {
+      $pull: { notes: req.params.id },
+    });
 
     res.status(200).json({ message: "Note deleted successfully", deletedNote });
   } catch (error) {

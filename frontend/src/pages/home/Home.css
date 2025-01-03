@@ -1,24 +1,39 @@
 /* Home.css */
 .home-container {
-    display: flex;
-    align-items: flex-start; /* Ensure items align at the top */
-  }
-  
-  .home-main-content {
-    flex: 1;
-    padding: 20px;
-  }
-  
-  .home-toggle-btn {
-    margin-top: 0; /* Ensure consistent alignment */
-    margin-bottom: 20px;
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  
-  .home-toggle-btn img {
-    width: 30px;
-    height: 30px;
-  }
-  
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+}
+
+.home-main-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+}
+
+.home-toggle-btn {
+  margin-top: 0;
+  margin-bottom: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.home-toggle-btn img {
+  width: 30px;
+  height: 30px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: left;
+}
+
+.editor-title {
+  margin-bottom: 20px;
+}
+
+.editor-container {
+  flex: 1;
+}

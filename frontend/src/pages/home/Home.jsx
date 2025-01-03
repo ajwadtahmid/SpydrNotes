@@ -37,6 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     getUserInfo();
+    console.log(userInfo);
     return () => {};
   }, []);
 
@@ -50,8 +51,8 @@ const Home = () => {
       {isSidebarVisible && (
         <Sidebar userInfo={userInfo} toggleSidebar={toggleSidebar} />
       )}
-      <EditorTitle saveTitle={saveTitle} />
-      <Editor />
+
+
       {/* Main Content */}
       <div className="home-main-content">
         {!isSidebarVisible && (
@@ -63,6 +64,7 @@ const Home = () => {
           </button>
         )}
         <h1>Home Page</h1>
+        <EditorTitle saveTitle={saveTitle} />
         <Editor />
       </div>
     </div>
