@@ -10,11 +10,7 @@ const TextColorButton = ({ editor, icons }) => {
         type="color"
         ref={colorInputRef}
         onInput={(event) =>
-          editor
-            .chain()
-            .focus()
-            .setColor(event.target.value)
-            .run()
+          editor.chain().focus().setColor(event.target.value).run()
         }
         value={editor.getAttributes("textStyle").color || "#000000"} // Default color
         style={{
@@ -34,7 +30,6 @@ const TextColorButton = ({ editor, icons }) => {
         onClick={() => colorInputRef.current.click()} // Trigger the input click
         style={{ position: "relative", zIndex: 1 }}
       >
-
         <img src={icons.palette} alt="Palette" />
       </button>
     </div>

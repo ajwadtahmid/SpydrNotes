@@ -3,21 +3,25 @@ import {
   createNote,
   deleteNote,
   getNote,
-  updateNote,
+  updateNoteTitle,
+  updateNoteBody,
 } from "../controllers/note.controller.js";
 
 const noteRouter = express.Router();
 
-// /api/note/create
+// Create a new note
 noteRouter.post("/create", createNote);
 
-// /api/note/:noteId
+// Delete a note by ID
 noteRouter.delete("/:id", deleteNote);
 
-// /api/note/:noteId
+// Get a note by ID
 noteRouter.get("/:id", getNote);
 
-// /api/note/update/:noteId
-noteRouter.put("/update/:id", updateNote);
+// Update a note's title by ID
+noteRouter.put("/update-title/:id", updateNoteTitle);
+
+// Update a note's body title by ID
+noteRouter.put("/update-body/:id", updateNoteBody);
 
 export default noteRouter;

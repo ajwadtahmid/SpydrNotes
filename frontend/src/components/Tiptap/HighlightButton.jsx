@@ -16,13 +16,15 @@ const HighlightButton = ({ editor, icons }) => {
             .toggleHighlight({ color: event.target.value })
             .run()
         }
-        value={editor.getAttributes("highlight").color || "#ffff00"} /* Default color */
+        value={
+          editor.getAttributes("highlight").color || "#ffff00"
+        } /* Default color */
         style={{
           position: "absolute",
           top: 0,
           left: 0,
-          opacity: 0, /* Make it invisible but clickable */
-          width: "32px", /* Matches button dimensions */
+          opacity: 0 /* Make it invisible but clickable */,
+          width: "32px" /* Matches button dimensions */,
           height: "32px",
           cursor: "pointer",
         }}
@@ -31,7 +33,9 @@ const HighlightButton = ({ editor, icons }) => {
 
       {/* Button that is visually placed over the input */}
       <button
-        onClick={() => colorInputRef.current.click()} /* Optional if input is clickable */
+        onClick={() =>
+          colorInputRef.current.click()
+        } /* Optional if input is clickable */
         style={{ position: "relative", zIndex: 1 }}
       >
         <img src={icons.highlight} alt="Highlight" />
