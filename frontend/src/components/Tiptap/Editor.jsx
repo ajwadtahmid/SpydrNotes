@@ -101,6 +101,17 @@ const Editor = ({ noteId, content = "" }) => {
     }
   }, [debouncedContent, content, isDirty, noteId]);
   
+  // Save content immediately on blur
+  const handleBlur = async () => {
+    try {
+      if (editorHTML !== content) {
+        await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: editorHTML });
+        console.log("Content saved immediately on blur:", editorHTML);
+      }
+    } catch (error) {
+      console.error("Error saving content on blur:", error);
+    }
+  };
 
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
@@ -408,7 +419,7 @@ const Editor = ({ noteId, content = "" }) => {
       )}
 
       {/* Editor Content */}
-      <EditorContent editor={editor} className="tiptap" />
+      <EditorContent editor={editor} className="tiptap"  onBlur={handleBlur}/>
       {/* Render HTML content below the editor */}
       <div className="editor-html-preview">
         <h3>HTML Output:</h3>
