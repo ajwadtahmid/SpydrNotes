@@ -116,21 +116,20 @@ const Home = () => {
       isSidebarVisible ? "with-sidebar" : "no-sidebar"
     }`}
   >
-    <Navbar className="navbar">
-      <Container>
-        {!isSidebarVisible && (
-          <button onClick={toggleSidebar} className="home-toggle-btn">
-            <img src={icons.sidebarUnfold} alt="Unfold Sidebar" />
-          </button>
-        )}
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            <span>{wordCount} words</span>
-            <p>{charCount} characters</p>
-          </Navbar.Text>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+<Navbar className="navbar" expand="lg">
+  {!isSidebarVisible && (
+    <button onClick={toggleSidebar} className="home-toggle-btn">
+      <img src={icons.sidebarUnfold} alt="Unfold Sidebar" />
+    </button>
+  )}
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+    <Navbar.Text className="navbar-text">
+      <span>{wordCount} words</span>
+      <span>{charCount} characters</span>
+    </Navbar.Text>
+  </Navbar.Collapse>
+</Navbar>
     <h1>Home Page</h1>
     <h3>{noteId}</h3>
 

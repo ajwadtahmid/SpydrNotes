@@ -40,20 +40,36 @@
 
 /* Navbar styles */
 .navbar {
-  position: fixed;
+  position: sticky; /* Keeps the navbar fixed at the top */
   top: 0;
   left: 0;
   right: 0;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  padding: 0;
+  background-color: #ffffff; /* Set background color */
+  box-shadow: none; /* Remove shadow */
+  z-index: 10; /* Ensure it's above all other elements */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  border: none; /* Remove any border */
 }
 
-.navbar .container {
-  padding-left: 20px;
-  padding-right: 20px;
+/* Remove unnecessary padding inside Navbar */
+.navbar-collapse {
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar text styling */
+.navbar-text {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 10px; /* Space between word and character count */
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Sidebar toggle button */
+.home-toggle-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
 }
