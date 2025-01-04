@@ -40,26 +40,20 @@ const Home = () => {
     }
   };
 
-  const saveTitle = async (title) => {
-    try {
-      const response = await axiosInstance.put(`/api/notes/update-title/${noteId}`,
-        {
-          title,
-        }
-      );
-      console.log("Title saved successfully:", response.data);
-    } catch (error) {
-      console.error("Error saving title:", error);
-    }
-  };
-
+  // const saveTitle = async (title) => {
+  //   if (!noteId || !title) return; // Prevent saving if noteId or title is invalid
+  //   try {
+  //     const response = await axiosInstance.put(`/api/notes/update-title/${noteId}`, { title });
+  //     console.log("Title saved successfully:", response.data);
+  //   } catch (error) {
+  //     console.error("Error saving title:", error);
+  //   }
+  // };
+  
   const saveContent = async (content) => {
+    if (!noteId || !content) return; // Prevent saving if noteId or content is invalid
     try {
-      const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`,
-        {
-          body: content,
-        }
-      );
+      const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: content });
       console.log("Content saved successfully:", response.data);
     } catch (error) {
       console.error("Error saving content:", error);
@@ -69,6 +63,7 @@ const Home = () => {
   useEffect(() => {
     getUserInfo();
     if (noteId) {
+      setNote(null);
       getNoteInfo(noteId);
       console.log("Note ID:", noteId);
     }
@@ -100,12 +95,12 @@ const Home = () => {
           <>
             <h3>{note.title}</h3>
             <EditorTitle
+              noteId={noteId}
               noteTitle={note.title || "Untitled"}
-              saveTitle={saveTitle}
             />
             <Editor
-              content={note?.body || ""}
-              saveContent={saveContent}
+              noteId={noteId}
+              content={note.body || ""}
             />
           </>
         ) : (

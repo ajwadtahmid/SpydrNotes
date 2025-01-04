@@ -19,8 +19,9 @@ import icons from "../../assets/icons";
 import "./Editor.css";
 import HighlightButton from "./HighlightButton";
 import TextColorButton from "./TextColorButton";
+import axiosInstance from "../../utils/axiosInstance";
 
-const Editor = ({ content = "", saveContent }) => {
+const Editor = ({ noteId, content = "" }) => {
   const [selectedFont, setSelectedFont] = useState("Inter");
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
@@ -28,6 +29,7 @@ const Editor = ({ content = "", saveContent }) => {
   const colorInputRef = useRef(null);
   const [editorHTML, setEditorHTML] = useState(content);
   const [debouncedContent, setDebouncedContent] = useState(content);
+  const [isDirty, setIsDirty] = useState(false); // Track if content has changed
 
   const editor = useEditor({
     extensions: [
@@ -67,6 +69,7 @@ const Editor = ({ content = "", saveContent }) => {
       // Update the HTML content whenever the editor changes
       const updatedHTML = editor.getHTML();
       setEditorHTML(updatedHTML);
+      setIsDirty(true); // Set isDirty to true when the content changes
     },
   });
 
@@ -79,17 +82,30 @@ const Editor = ({ content = "", saveContent }) => {
     return () => clearTimeout(handler); // Cleanup timeout on changes
   }, [editorHTML]);
 
-  // Save content whenever debouncedContent changes
+  // Save content to the API whenever debouncedContent changes
   useEffect(() => {
-    if (debouncedContent !== content) {
-      saveContent(debouncedContent); // Call saveContent with the debounced value
+    const saveContent = async (updatedContent) => {
+      try {
+        if (noteId && updatedContent !== content) {
+          await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: updatedContent });
+          console.log("Content saved successfully:", updatedContent);
+        }
+      } catch (error) {
+        console.error("Error saving content:", error);
+      }
+    };
+
+    if (isDirty && debouncedContent !== content) {
+      saveContent(debouncedContent);
+      setIsDirty(false); // Reset dirty flag after saving
     }
-  }, [debouncedContent, saveContent, content]);
+  }, [debouncedContent, content, isDirty, noteId]);
   
 
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content);
+      setIsDirty(false); // Reset dirty flag when a new note is loaded
     }
   }, [content, editor]);
 
