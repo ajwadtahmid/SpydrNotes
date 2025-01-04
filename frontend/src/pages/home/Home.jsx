@@ -42,12 +42,27 @@ const Home = () => {
 
   const saveTitle = async (title) => {
     try {
-      const response = await axiosInstance.post(`/api/notes/${noteId}/title`, {
-        title,
-      });
+      const response = await axiosInstance.put(`/api/notes/update-title/${noteId}`,
+        {
+          title,
+        }
+      );
       console.log("Title saved successfully:", response.data);
     } catch (error) {
       console.error("Error saving title:", error);
+    }
+  };
+
+  const saveContent = async (content) => {
+    try {
+      const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`,
+        {
+          body: content,
+        }
+      );
+      console.log("Content saved successfully:", response.data);
+    } catch (error) {
+      console.error("Error saving content:", error);
     }
   };
 
@@ -84,8 +99,14 @@ const Home = () => {
         {note ? (
           <>
             <h3>{note.title}</h3>
-            <EditorTitle noteTitle={note.title || "Untitled"} saveTitle={saveTitle} />
-            <Editor content={note.content || ""} />
+            <EditorTitle
+              noteTitle={note.title || "Untitled"}
+              saveTitle={saveTitle}
+            />
+            <Editor
+              content={note?.body || ""}
+              saveContent={saveContent}
+            />
           </>
         ) : (
           <p>Loading note...</p>

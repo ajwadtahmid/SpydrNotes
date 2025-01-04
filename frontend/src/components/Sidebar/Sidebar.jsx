@@ -64,6 +64,7 @@ const Sidebar = ({ userInfo, toggleSidebar }) => {
             >
               {/* Icon inside the button */}
               <img src={icons.fileText} alt="Note Icon" className="note-icon" />
+              {/* {typeof note === "string" ? note : note._id} */}
               {typeof note === "string" ? note : note._id}
             </Button>
           ))

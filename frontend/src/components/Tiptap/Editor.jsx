@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -20,13 +20,14 @@ import "./Editor.css";
 import HighlightButton from "./HighlightButton";
 import TextColorButton from "./TextColorButton";
 
-const Editor = () => {
+const Editor = ({ content = "", saveContent }) => {
   const [selectedFont, setSelectedFont] = useState("Inter");
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
   const colorInputRef = useRef(null);
-  const [editorHTML, setEditorHTML] = useState("");
+  const [editorHTML, setEditorHTML] = useState(content);
+  const [debouncedContent, setDebouncedContent] = useState(content);
 
   const editor = useEditor({
     extensions: [
@@ -61,12 +62,36 @@ const Editor = () => {
     //   <h2>Welcome to the Editor</h2>
     //   <p>Try out the various features in the toolbar.</p>
     // `,
-    content: "",
+    content,
     onUpdate: ({ editor }) => {
       // Update the HTML content whenever the editor changes
-      setEditorHTML(editor.getHTML());
+      const updatedHTML = editor.getHTML();
+      setEditorHTML(updatedHTML);
     },
   });
+
+  // Debounce the content before saving
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedContent(editorHTML); // Update debounced content after delay
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(handler); // Cleanup timeout on changes
+  }, [editorHTML]);
+
+  // Save content whenever debouncedContent changes
+  useEffect(() => {
+    if (debouncedContent !== content) {
+      saveContent(debouncedContent); // Call saveContent with the debounced value
+    }
+  }, [debouncedContent, saveContent, content]);
+  
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return null;
