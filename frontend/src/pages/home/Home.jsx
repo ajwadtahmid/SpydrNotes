@@ -13,12 +13,14 @@ const Home = () => {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [notes, setNotes] = useState([]);
 
   const getUserInfo = async () => {
     try {
       const response = await axiosInstance.get("/api/auth/authcheck");
       if (response.data) {
         setUserInfo(response.data);
+        setNotes(response.data.notes || []);
       }
     } catch (error) {
       if (error.response?.status === 401) {
@@ -40,6 +42,19 @@ const Home = () => {
     }
   };
 
+  const handleNewNote = async () => {
+    try {
+      const response = await axiosInstance.post("/api/notes/create");
+      if (response.data) {
+        const newNote = response.data.note;
+        setNotes((prevNotes) => [...prevNotes, newNote]); // Add new note to notes
+        navigate(`/notes/${newNote._id}`); // Navigate to the new note
+      }
+    } catch (error) {
+      console.error("Error creating new note:", error);
+    }
+  };
+
   // const saveTitle = async (title) => {
   //   if (!noteId || !title) return; // Prevent saving if noteId or title is invalid
   //   try {
@@ -50,15 +65,15 @@ const Home = () => {
   //   }
   // };
   
-  const saveContent = async (content) => {
-    if (!noteId || !content) return; // Prevent saving if noteId or content is invalid
-    try {
-      const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: content });
-      console.log("Content saved successfully:", response.data);
-    } catch (error) {
-      console.error("Error saving content:", error);
-    }
-  };
+  // const saveContent = async (content) => {
+  //   if (!noteId || !content) return; // Prevent saving if noteId or content is invalid
+  //   try {
+  //     const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: content });
+  //     console.log("Content saved successfully:", response.data);
+  //   } catch (error) {
+  //     console.error("Error saving content:", error);
+  //   }
+  // };
 
   useEffect(() => {
     getUserInfo();
@@ -77,7 +92,11 @@ const Home = () => {
     <div className="home-container">
       {/* Sidebar */}
       {isSidebarVisible && (
-        <Sidebar userInfo={userInfo} toggleSidebar={toggleSidebar} />
+        <Sidebar           
+        username={userInfo?.username}
+        notes={notes}
+        onNewNote={handleNewNote}
+        toggleSidebar={toggleSidebar} />
       )}
 
       {/* Main Content */}
