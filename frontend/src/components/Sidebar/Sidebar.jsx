@@ -16,19 +16,19 @@ const Sidebar = ({ notes, username, onNewNote, toggleSidebar }) => {
     <div className="sidebar-container">
       <div className="sidebar-header">
         <h4 className="sidebar-username">{username}'s Notebook</h4>
+        <button action="#" method="POST" onClick={onNewNote}>
+          <img src={icons.fileAdd} alt="New Note" />
+        </button>
         <button onClick={toggleSidebar} className="sidebar-toggle-btn">
           <img src={icons.sidebarFold} alt="Fold Sidebar" />
         </button>
       </div>
-      <Nav className="sidebar-nav flex-column">
-        <button action="#" method="POST" onClick={onNewNote}>
-          <img src={icons.fileAdd} alt="New Note" />
-        </button>
+      {/* <Nav className="sidebar-nav flex-column">
         <Nav.Link href="#home">Home</Nav.Link>
         <Nav.Link href="#about">About</Nav.Link>
         <Nav.Link href="#services">Services</Nav.Link>
         <Nav.Link href="#contact">Contact</Nav.Link>
-      </Nav>
+      </Nav> */}
       <div className="sidebar-notes">
         <h5>Your Notes</h5>
         {notes && notes.length > 0 ? (
@@ -40,7 +40,7 @@ const Sidebar = ({ notes, username, onNewNote, toggleSidebar }) => {
               onClick={() => handleNoteClick(note._id)}
             >
               <img src={icons.fileText} alt="Note Icon" className="note-icon" />
-              {note.title}
+              {note.title || "New Page"}
             </Button>
           ))
         ) : (

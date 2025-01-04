@@ -1,39 +1,59 @@
-/* Home.css */
-.home-container {
+/* Sidebar styles */
+.sidebar-container {
+  width: 250px; /* Fixed width for sidebar */
+  height: 100vh; /* Full screen height */
+  background-color: #f8f9fa;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  align-items: flex-start; /* Align items at the top */
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+  padding: 20px 15px; /* Add some padding for spacing */
+  position: fixed; /* Stick to the left */
+  left: 0;
+  top: 0;
+  z-index: 20; /* Ensure it stays above other elements */
+  overflow-y: auto; /* Add scrolling for overflow content */
+  transition: transform 0.3s ease-in-out; /* Smooth toggle animation */
 }
 
+.sidebar-hidden {
+  transform: translateX(-100%); /* Move sidebar off the screen when hidden */
+}
+
+/* Main content styles */
 .home-main-content {
   flex: 1;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Stack children vertically */
+  flex-direction: column;
+  background-color: #ffffff;
+  transition: margin-left 0.3s ease-in-out; /* Smooth adjustment when sidebar toggles */
 }
 
-.home-toggle-btn {
-  margin-top: 0;
-  margin-bottom: 20px;
-  border: none;
-  background: none;
-  cursor: pointer;
+.home-main-content.with-sidebar {
+  margin-left: 250px; /* Add margin when the sidebar is visible */
 }
 
-.home-toggle-btn img {
-  width: 30px;
-  height: 30px;
+.home-main-content.no-sidebar {
+  margin-left: 0; /* Reset margin when the sidebar is hidden */
 }
 
-h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: left;
+/* Navbar styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  padding: 0;
 }
 
-.editor-title {
-  margin-bottom: 20px;
-}
-
-.editor-container {
-  flex: 1;
+.navbar .container {
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

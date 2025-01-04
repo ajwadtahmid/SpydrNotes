@@ -14,6 +14,7 @@ import Strike from "@tiptap/extension-strike";
 import FontFamily from "@tiptap/extension-font-family";
 import Highlight from "@tiptap/extension-highlight";
 import PlaceHolder from "@tiptap/extension-placeholder";
+import CharacterCount from "@tiptap/extension-character-count";
 import { Dropdown } from "react-bootstrap";
 import icons from "../../assets/icons";
 import "./Editor.css";
@@ -21,7 +22,7 @@ import HighlightButton from "./HighlightButton";
 import TextColorButton from "./TextColorButton";
 import axiosInstance from "../../utils/axiosInstance";
 
-const Editor = ({ noteId, content = "" }) => {
+const Editor = ({ noteId, content = "", onUpdateCounts }) => {
   const [selectedFont, setSelectedFont] = useState("Inter");
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
@@ -59,6 +60,7 @@ const Editor = ({ noteId, content = "" }) => {
       FontFamily,
       Highlight.configure({ multicolor: true }),
       PlaceHolder,
+      CharacterCount,
     ],
     // content: `
     //   <h2>Welcome to the Editor</h2>
@@ -87,7 +89,9 @@ const Editor = ({ noteId, content = "" }) => {
     const saveContent = async (updatedContent) => {
       try {
         if (noteId && updatedContent !== content) {
-          await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: updatedContent });
+          await axiosInstance.put(`/api/notes/update-body/${noteId}`, {
+            body: updatedContent,
+          });
           console.log("Content saved successfully:", updatedContent);
         }
       } catch (error) {
@@ -100,12 +104,14 @@ const Editor = ({ noteId, content = "" }) => {
       setIsDirty(false); // Reset dirty flag after saving
     }
   }, [debouncedContent, content, isDirty, noteId]);
-  
+
   // Save content immediately on blur
   const handleBlur = async () => {
     try {
       if (editorHTML !== content) {
-        await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: editorHTML });
+        await axiosInstance.put(`/api/notes/update-body/${noteId}`, {
+          body: editorHTML,
+        });
         console.log("Content saved immediately on blur:", editorHTML);
       }
     } catch (error) {
@@ -123,6 +129,18 @@ const Editor = ({ noteId, content = "" }) => {
   if (!editor) {
     return null;
   }
+
+  useEffect(() => {
+    if (editor) {
+      const words = editor.storage.characterCount.words();
+      const chars = editor.storage.characterCount.characters();
+      onUpdateCounts(words, chars); // Pass the updated counts to the parent
+    }
+  }, [editorHTML]);
+
+  const percentage = editor
+    ? Math.round(100 * editor.storage.characterCount.characters())
+    : 0;
 
   return (
     <div className="editor">
@@ -419,11 +437,17 @@ const Editor = ({ noteId, content = "" }) => {
       )}
 
       {/* Editor Content */}
-      <EditorContent editor={editor} className="tiptap"  onBlur={handleBlur}/>
+      <EditorContent editor={editor} className="tiptap" onBlur={handleBlur} />
       {/* Render HTML content below the editor */}
       <div className="editor-html-preview">
         <h3>HTML Output:</h3>
         <pre>{editorHTML}</pre>
+      </div>
+
+      <div className="character-count">
+        {editor.storage.characterCount.characters()} characters
+        <br />
+        {editor.storage.characterCount.words()} words
       </div>
     </div>
   );

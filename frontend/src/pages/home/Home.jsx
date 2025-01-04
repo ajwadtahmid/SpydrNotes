@@ -6,7 +6,8 @@ import EditorTitle from "../../components/Tiptap/EditorTitle";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import icons from "../../assets/icons";
 import "./Home.css";
-
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
 const Home = () => {
   const { noteId } = useParams();
   const [note, setNote] = useState(null);
@@ -14,6 +15,8 @@ const Home = () => {
   const navigate = useNavigate();
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [wordCount, setWordCount] = useState(0);
+  const [charCount, setCharCount] = useState(0);
 
   const getUserInfo = async () => {
     try {
@@ -64,7 +67,7 @@ const Home = () => {
   //     console.error("Error saving title:", error);
   //   }
   // };
-  
+
   // const saveContent = async (content) => {
   //   if (!noteId || !content) return; // Prevent saving if noteId or content is invalid
   //   try {
@@ -88,45 +91,66 @@ const Home = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  return (
-    <div className="home-container">
-      {/* Sidebar */}
-      {isSidebarVisible && (
-        <Sidebar           
-        username={userInfo?.username}
-        notes={notes}
-        onNewNote={handleNewNote}
-        toggleSidebar={toggleSidebar} />
-      )}
+  const updateCounts = (words, chars) => {
+    setWordCount(words);
+    setCharCount(chars);
+  };
 
-      {/* Main Content */}
-      <div className="home-main-content">
+  return (
+<div className="home-container">
+  {/* Sidebar */}
+  <div
+    className={`sidebar-container ${isSidebarVisible ? "" : "sidebar-hidden"}`}
+  >
+    <Sidebar
+      username={userInfo?.username}
+      notes={notes}
+      onNewNote={handleNewNote}
+      toggleSidebar={toggleSidebar}
+    />
+  </div>
+
+  {/* Main Content */}
+  <div
+    className={`home-main-content ${
+      isSidebarVisible ? "with-sidebar" : "no-sidebar"
+    }`}
+  >
+    <Navbar className="navbar">
+      <Container>
         {!isSidebarVisible && (
           <button onClick={toggleSidebar} className="home-toggle-btn">
             <img src={icons.sidebarUnfold} alt="Unfold Sidebar" />
           </button>
         )}
-        <h1>Home Page</h1>
-        <h3>{noteId}</h3>
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            <span>{wordCount} words</span>
+            <p>{charCount} characters</p>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+    <h1>Home Page</h1>
+    <h3>{noteId}</h3>
 
-        {/* Conditional Rendering for Note */}
-        {note ? (
-          <>
-            <h3>{note.title}</h3>
-            <EditorTitle
-              noteId={noteId}
-              noteTitle={note.title || "Untitled"}
-            />
-            <Editor
-              noteId={noteId}
-              content={note.body || ""}
-            />
-          </>
-        ) : (
-          <p>Loading note...</p>
-        )}
-      </div>
-    </div>
+    {/* Conditional Rendering for Note */}
+    {note ? (
+      <>
+        <h3>{note.title}</h3>
+        <EditorTitle noteId={noteId} noteTitle={note.title || "Untitled"} />
+        <Editor
+          noteId={noteId}
+          content={note.body || ""}
+          onUpdateCounts={updateCounts}
+        />
+      </>
+    ) : (
+      <p>Loading note...</p>
+    )}
+  </div>
+</div>
+
   );
 };
 
