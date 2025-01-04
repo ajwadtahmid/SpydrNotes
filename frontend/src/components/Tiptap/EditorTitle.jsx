@@ -17,9 +17,12 @@ const EditorTitle = ({ noteTitle = "Untitled", saveTitle }) => {
     return () => clearTimeout(handler);
   }, [title]);
 
+  // Save the title only if it has changed
   useEffect(() => {
-    saveTitle(debouncedTitle); // Always call saveTitle, even for empty strings
-  }, [debouncedTitle, saveTitle]);
+    if (debouncedTitle !== noteTitle) {
+      saveTitle(debouncedTitle); // Call saveTitle only if the title has changed
+    }
+  }, [debouncedTitle, noteTitle, saveTitle]);
 
   useEffect(() => {
     // Update the title state when noteTitle changes
