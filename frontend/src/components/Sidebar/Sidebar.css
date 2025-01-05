@@ -71,26 +71,29 @@
   cursor: pointer; /* Change cursor to pointer on hover */
 }
 
-/* Parent container for note items */
-.note-item-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px; /* Add spacing between note items */
+.context-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 150px;
+  padding: 5px 0;
+  border-radius: 4px;
 }
 
-/* Trash bin button */
-.delete-note-btn {
-  background: none;
-  border: none;
+.context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.context-menu li {
+  padding: 10px 15px;
   cursor: pointer;
-  padding: 0; /* Remove default padding */
-  display: flex;
-  align-items: center; /* Vertically align the icon */
-  justify-content: center;
+  white-space: nowrap;
 }
 
-.delete-note-btn img {
-  width: 18px; /* Adjust icon size */
-  height: 18px;
+.context-menu li:hover {
+  background-color: #f0f0f0;
 }
