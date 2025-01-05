@@ -1,74 +1,96 @@
 /* Sidebar.css */
 .sidebar-container {
-    width: 250px;
-    background-color: #f8f9fa;
-    height: 100vh;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .sidebar-header {
-    display: flex;
-    justify-content: space-between; /* Positions text on the left and button on the right */
-    align-items: center; /* Vertically aligns items */
-    margin-bottom: 20px;
-  }
-  
-  .sidebar-toggle-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  
-  /* .sidebar-toggle-btn img {
+  width: 250px;
+  background-color: #f8f9fa;
+  height: 100vh;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between; /* Positions text on the left and button on the right */
+  align-items: center; /* Vertically aligns items */
+  margin-bottom: 20px;
+}
+
+.sidebar-toggle-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* .sidebar-toggle-btn img {
     width: 30px;
     height: 30px;
   } */
-  
-  .sidebar-nav {
-    margin-top: 20px;
-  }
-  
-  .sidebar-username {
-    font-size: 1.2em;
-    font-weight: bold;
-    white-space: nowrap; /* Ensures the text doesn’t wrap to a new line */
-    padding-top: 6px;
-  }
 
-  
-  .sidebar-notes .note-item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Align icon and text to the left */
-    width: 100%; /* Ensure the button fits the sidebar width */
-    padding: 4px; /* Add padding for better spacing */
-    box-sizing: border-box; /* Include padding in the button's width */
-    text-align: left; /* Align text inside the button to the left */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Show ellipsis for long text */
-  }
-  
-  .sidebar-notes .note-item b {
-    flex: 1; /* Make the text take up the remaining space */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Show ellipsis for long text */
-  }
-  
-  .sidebar-notes .note-icon {
-    width: 20px; /* Adjust icon size */
-    height: 20px;
-    margin-right: 10px; /* Space between icon and text */
-    flex-shrink: 0; /* Prevent icon from resizing */
-  }
-  
-  /* Optional: Add hover effects for the button */
-  .sidebar-notes .note-item:hover {
-    background-color: #f0f0f0; /* Example hover background color */
-    cursor: pointer; /* Change cursor to pointer on hover */
-  }
-  
+.sidebar-nav {
+  margin-top: 20px;
+}
+
+.sidebar-username {
+  font-size: 1.2em;
+  font-weight: bold;
+  white-space: nowrap; /* Ensures the text doesn’t wrap to a new line */
+  padding-top: 6px;
+}
+
+.sidebar-notes .note-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align icon and text to the left */
+  width: 100%; /* Ensure the button fits the sidebar width */
+  padding: 4px; /* Add padding for better spacing */
+  box-sizing: border-box; /* Include padding in the button's width */
+  text-align: left; /* Align text inside the button to the left */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show ellipsis for long text */
+}
+
+.sidebar-notes .note-item b {
+  flex: 1; /* Make the text take up the remaining space */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Show ellipsis for long text */
+}
+
+.sidebar-notes .note-icon {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
+  margin-right: 10px; /* Space between icon and text */
+  flex-shrink: 0; /* Prevent icon from resizing */
+}
+
+/* Optional: Add hover effects for the button */
+.sidebar-notes .note-item:hover {
+  background-color: #f0f0f0; /* Example hover background color */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Parent container for note items */
+.note-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px; /* Add spacing between note items */
+}
+
+/* Trash bin button */
+.delete-note-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0; /* Remove default padding */
+  display: flex;
+  align-items: center; /* Vertically align the icon */
+  justify-content: center;
+}
+
+.delete-note-btn img {
+  width: 18px; /* Adjust icon size */
+  height: 18px;
+}

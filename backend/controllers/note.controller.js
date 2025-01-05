@@ -125,6 +125,8 @@ export const updateNoteTitle = async (req, res) => {
     res.status(200).json({ message: "Title updated successfully", note: note });
   } catch (error) {
     console.error("Error updating title:", error);
-    res.status(500).json({ error: "An error occurred while updating the title" });
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the title" });
   }
 };

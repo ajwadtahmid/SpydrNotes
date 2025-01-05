@@ -8,6 +8,7 @@ import icons from "../../assets/icons";
 import "./Home.css";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+
 const Home = () => {
   const { noteId } = useParams();
   const [note, setNote] = useState(null);
@@ -38,7 +39,6 @@ const Home = () => {
       const response = await axiosInstance.get(`/api/notes/${id}`);
       if (response.data) {
         setNote(response.data.note);
-        console.log("Note info:", response.data.note);
       }
     } catch (error) {
       console.error("Error getting note info:", error);
@@ -58,32 +58,28 @@ const Home = () => {
     }
   };
 
-  // const saveTitle = async (title) => {
-  //   if (!noteId || !title) return; // Prevent saving if noteId or title is invalid
-  //   try {
-  //     const response = await axiosInstance.put(`/api/notes/update-title/${noteId}`, { title });
-  //     console.log("Title saved successfully:", response.data);
-  //   } catch (error) {
-  //     console.error("Error saving title:", error);
-  //   }
-  // };
-
-  // const saveContent = async (content) => {
-  //   if (!noteId || !content) return; // Prevent saving if noteId or content is invalid
-  //   try {
-  //     const response = await axiosInstance.put(`/api/notes/update-body/${noteId}`, { body: content });
-  //     console.log("Content saved successfully:", response.data);
-  //   } catch (error) {
-  //     console.error("Error saving content:", error);
-  //   }
-  // };
+  const handleDeleteNote = async (noteId) => {
+    try {
+      const response = await axiosInstance.delete(`/api/notes/${noteId}`);
+      if (response.status === 200) {
+        setNotes((prevNotes) =>
+          prevNotes.filter((note) => note._id !== noteId)
+        );
+        if (noteId === note?._id) {
+          setNote(null); // Clear note if the currently viewed note is deleted
+          navigate("/"); // Navigate back to the home page
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
+  };
 
   useEffect(() => {
     getUserInfo();
     if (noteId) {
       setNote(null);
       getNoteInfo(noteId);
-      console.log("Note ID:", noteId);
     }
   }, [noteId]);
 
@@ -97,59 +93,61 @@ const Home = () => {
   };
 
   return (
-<div className="home-container">
-  {/* Sidebar */}
-  <div
-    className={`sidebar-container ${isSidebarVisible ? "" : "sidebar-hidden"}`}
-  >
-    <Sidebar
-      username={userInfo?.username}
-      notes={notes}
-      onNewNote={handleNewNote}
-      toggleSidebar={toggleSidebar}
-    />
-  </div>
-
-  {/* Main Content */}
-  <div
-    className={`home-main-content ${
-      isSidebarVisible ? "with-sidebar" : "no-sidebar"
-    }`}
-  >
-<Navbar className="navbar" expand="lg">
-  {!isSidebarVisible && (
-    <button onClick={toggleSidebar} className="home-toggle-btn">
-      <img src={icons.sidebarUnfold} alt="Unfold Sidebar" />
-    </button>
-  )}
-  <Navbar.Toggle aria-controls="basic-navbar-nav" />
-  <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-    <Navbar.Text className="navbar-text">
-      <span>{wordCount} words</span>
-      <span>{charCount} characters</span>
-    </Navbar.Text>
-  </Navbar.Collapse>
-</Navbar>
-    <h1>Home Page</h1>
-    <h3>{noteId}</h3>
-
-    {/* Conditional Rendering for Note */}
-    {note ? (
-      <>
-        <h3>{note.title}</h3>
-        <EditorTitle noteId={noteId} noteTitle={note.title || "Untitled"} />
-        <Editor
-          noteId={noteId}
-          content={note.body || ""}
-          onUpdateCounts={updateCounts}
+    <div className="home-container">
+      {/* Sidebar */}
+      <div
+        className={`sidebar-container ${
+          isSidebarVisible ? "" : "sidebar-hidden"
+        }`}
+      >
+        <Sidebar
+          username={userInfo?.username}
+          notes={notes}
+          onNewNote={handleNewNote}
+          toggleSidebar={toggleSidebar}
+          onDeleteNote={handleDeleteNote}
         />
-      </>
-    ) : (
-      <p>Loading note...</p>
-    )}
-  </div>
-</div>
+      </div>
 
+      {/* Main Content */}
+      <div
+        className={`home-main-content ${
+          isSidebarVisible ? "with-sidebar" : "no-sidebar"
+        }`}
+      >
+        <Navbar className="navbar" expand="lg">
+          {!isSidebarVisible && (
+            <button onClick={toggleSidebar} className="home-toggle-btn">
+              <img src={icons.sidebarUnfold} alt="Unfold Sidebar" />
+            </button>
+          )}
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse
+            id="basic-navbar-nav"
+            className="justify-content-end"
+          >
+            <Navbar.Text className="navbar-text">
+              <span>{wordCount} words</span>
+              <span>{charCount} characters</span>
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Navbar>
+
+        {/* Conditional Rendering for Note */}
+        {note ? (
+          <>
+            <EditorTitle noteId={noteId} noteTitle={note.title || "Untitled"} />
+            <Editor
+              noteId={noteId}
+              content={note.body || ""}
+              onUpdateCounts={updateCounts}
+            />
+          </>
+        ) : (
+          <p>Loading note...</p>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -112,7 +112,9 @@ export const logout = async (req, res) => {
 
 export const authCheck = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-password").populate("notes", "_id title");
+    const user = await User.findById(req.user._id)
+      .select("-password")
+      .populate("notes", "_id title");
     res.status(200).json(user);
   } catch (error) {
     console.log("Error in authCheck controller", error.message);
