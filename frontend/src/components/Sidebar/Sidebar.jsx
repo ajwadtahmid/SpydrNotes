@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import icons from "../../assets/icons";
 import "./Sidebar.css";
 import Button from "react-bootstrap/Button";
@@ -12,13 +12,32 @@ const Sidebar = ({
   onDeleteNote,
 }) => {
   const navigate = useNavigate();
+  const [contextMenu, setContextMenu] = useState(null); // Store context menu state
+  const [selectedNoteId, setSelectedNoteId] = useState(null); // Store the selected note ID
 
   const handleNoteClick = (noteId) => {
     navigate(`/notes/${noteId}`);
   };
 
+  const handleContextMenu = (event, noteId) => {
+    event.preventDefault(); // Prevent the default browser context menu
+    setSelectedNoteId(noteId); // Set the selected note
+    setContextMenu({
+      x: event.pageX,
+      y: event.pageY,
+    });
+  };
+
+  const handleMenuAction = (action) => {
+    if (action === "delete") {
+      onDeleteNote(selectedNoteId);
+    }
+    // Handle other actions (e.g., Cut, Copy, Paste) here
+    setContextMenu(null); // Hide the context menu after an action
+  };
+
   return (
-    <div className="sidebar-container">
+    <div className="sidebar-container" onClick={() => setContextMenu(null)}>
       <div className="sidebar-header">
         <h4 className="sidebar-username">{username}'s Notebook</h4>
         <button onClick={onNewNote}>
@@ -32,7 +51,11 @@ const Sidebar = ({
         <h5>Your Notes</h5>
         {notes && notes.length > 0 ? (
           notes.map((note) => (
-            <div key={note._id} className="note-item-container">
+            <div
+              key={note._id}
+              className="note-item-container"
+              onContextMenu={(event) => handleContextMenu(event, note._id)}
+            >
               <Button
                 variant="light"
                 className="note-item"
@@ -45,18 +68,27 @@ const Sidebar = ({
                 />
                 {note.title || "New Page"}
               </Button>
-              <button
-                className="delete-note-btn"
-                onClick={() => onDeleteNote(note._id)}
-              >
-                <img src={icons.trashBin} alt="Delete Note" />
-              </button>
             </div>
           ))
         ) : (
           <p>No notes found</p>
         )}
       </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          className="context-menu"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+        >
+          <ul>
+            <li onClick={() => handleMenuAction("cut")}>Cut</li>
+            <li onClick={() => handleMenuAction("copy")}>Copy</li>
+            <li onClick={() => handleMenuAction("paste")}>Paste</li>
+            <li onClick={() => handleMenuAction("delete")}>Delete</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
