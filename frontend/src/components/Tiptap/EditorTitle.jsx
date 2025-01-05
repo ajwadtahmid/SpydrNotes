@@ -1,27 +1,45 @@
 import React, { useState, useEffect } from "react";
+import axiosInstance from "../../utils/axiosInstance";
 import "./EditorTitle.css";
 
-const EditorTitle = ({ saveTitle }) => {
-  const [title, setTitle] = useState("");
-  const [debouncedTitle, setDebouncedTitle] = useState("");
+const EditorTitle = ({ noteId, noteTitle = "Untitled" }) => {
+  const [title, setTitle] = useState(noteTitle !== "Untitled" ? noteTitle : "");
+  const [isDirty, setIsDirty] = useState(false); // Track if the title has changed
+
+  const saveTitle = async (updatedTitle) => {
+    try {
+      if (noteId && updatedTitle !== noteTitle) {
+        await axiosInstance.put(`/api/notes/update-title/${noteId}`, {
+          title: updatedTitle,
+        });
+        console.log("Title saved successfully:", updatedTitle);
+      }
+    } catch (error) {
+      console.error("Error saving title:", error);
+    }
+  };
 
   const handleChange = (event) => {
-    setTitle(event.target.value);
+    const updatedTitle = event.target.value;
+    setTitle(updatedTitle);
+    setIsDirty(true); // Set dirty flag when the title changes
+    saveTitle(updatedTitle); // Save immediately
+  };
+
+  const handleBlur = () => {
+    if (isDirty) {
+      saveTitle(title); // Save when the input loses focus
+      setIsDirty(false); // Reset dirty flag
+    }
   };
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedTitle(title);
-    }, 500); // 500ms debounce
+    // Update the title state when noteTitle changes
+    setTitle(noteTitle !== "Untitled" ? noteTitle : "");
+    setIsDirty(false); // Reset dirty flag when a new note is loaded
+  }, [noteTitle]);
 
-    return () => clearTimeout(handler);
-  }, [title]);
-
-  useEffect(() => {
-    if (debouncedTitle) {
-      saveTitle(debouncedTitle); // Call save function when debounce settles
-    }
-  }, [debouncedTitle, saveTitle]);
+  
 
   return (
     <div className="title-editor">
@@ -37,6 +55,8 @@ const EditorTitle = ({ saveTitle }) => {
 };
 
 export default EditorTitle;
+
+
 
 
 // import React, { useState } from "react";

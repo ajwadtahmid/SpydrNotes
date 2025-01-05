@@ -22,10 +22,10 @@
     cursor: pointer;
   }
   
-  .sidebar-toggle-btn img {
+  /* .sidebar-toggle-btn img {
     width: 30px;
     height: 30px;
-  }
+  } */
   
   .sidebar-nav {
     margin-top: 20px;
@@ -47,6 +47,13 @@
     padding: 4px; /* Add padding for better spacing */
     box-sizing: border-box; /* Include padding in the button's width */
     text-align: left; /* Align text inside the button to the left */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Show ellipsis for long text */
+  }
+  
+  .sidebar-notes .note-item b {
+    flex: 1; /* Make the text take up the remaining space */
     white-space: nowrap; /* Prevent text wrapping */
     overflow: hidden; /* Hide overflowing text */
     text-overflow: ellipsis; /* Show ellipsis for long text */

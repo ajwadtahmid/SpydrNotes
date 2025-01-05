@@ -12,6 +12,7 @@
   "dependencies": {
     "@tiptap/extension-bold": "^2.11.0",
     "@tiptap/extension-bubble-menu": "^2.11.0",
+    "@tiptap/extension-character-count": "^2.11.0",
     "@tiptap/extension-code-block-lowlight": "^2.11.0",
     "@tiptap/extension-color": "^2.11.0",
     "@tiptap/extension-font-family": "^2.11.0",

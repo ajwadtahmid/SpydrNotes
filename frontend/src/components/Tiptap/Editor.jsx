@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
@@ -14,19 +14,23 @@ import Strike from "@tiptap/extension-strike";
 import FontFamily from "@tiptap/extension-font-family";
 import Highlight from "@tiptap/extension-highlight";
 import PlaceHolder from "@tiptap/extension-placeholder";
+import CharacterCount from "@tiptap/extension-character-count";
 import { Dropdown } from "react-bootstrap";
 import icons from "../../assets/icons";
 import "./Editor.css";
 import HighlightButton from "./HighlightButton";
 import TextColorButton from "./TextColorButton";
+import axiosInstance from "../../utils/axiosInstance";
 
-const Editor = () => {
+const Editor = ({ noteId, content = "", onUpdateCounts }) => {
   const [selectedFont, setSelectedFont] = useState("Inter");
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
   const colorInputRef = useRef(null);
-  const [editorHTML, setEditorHTML] = useState("");
+  const [editorHTML, setEditorHTML] = useState(content);
+  const [debouncedContent, setDebouncedContent] = useState(content);
+  const [isDirty, setIsDirty] = useState(false); // Track if content has changed
 
   const editor = useEditor({
     extensions: [
@@ -56,21 +60,87 @@ const Editor = () => {
       FontFamily,
       Highlight.configure({ multicolor: true }),
       PlaceHolder,
+      CharacterCount,
     ],
     // content: `
     //   <h2>Welcome to the Editor</h2>
     //   <p>Try out the various features in the toolbar.</p>
     // `,
-    content: "",
+    content,
     onUpdate: ({ editor }) => {
       // Update the HTML content whenever the editor changes
-      setEditorHTML(editor.getHTML());
+      const updatedHTML = editor.getHTML();
+      setEditorHTML(updatedHTML);
+      setIsDirty(true); // Set isDirty to true when the content changes
     },
   });
+
+  // Debounce the content before saving
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedContent(editorHTML); // Update debounced content after delay
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(handler); // Cleanup timeout on changes
+  }, [editorHTML]);
+
+  // Save content to the API whenever debouncedContent changes
+  useEffect(() => {
+    const saveContent = async (updatedContent) => {
+      try {
+        if (noteId && updatedContent !== content) {
+          await axiosInstance.put(`/api/notes/update-body/${noteId}`, {
+            body: updatedContent,
+          });
+          console.log("Content saved successfully:", updatedContent);
+        }
+      } catch (error) {
+        console.error("Error saving content:", error);
+      }
+    };
+
+    if (isDirty && debouncedContent !== content) {
+      saveContent(debouncedContent);
+      setIsDirty(false); // Reset dirty flag after saving
+    }
+  }, [debouncedContent, content, isDirty, noteId]);
+
+  // Save content immediately on blur
+  const handleBlur = async () => {
+    try {
+      if (editorHTML !== content) {
+        await axiosInstance.put(`/api/notes/update-body/${noteId}`, {
+          body: editorHTML,
+        });
+        console.log("Content saved immediately on blur:", editorHTML);
+      }
+    } catch (error) {
+      console.error("Error saving content on blur:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+      setIsDirty(false); // Reset dirty flag when a new note is loaded
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return null;
   }
+
+  useEffect(() => {
+    if (editor) {
+      const words = editor.storage.characterCount.words();
+      const chars = editor.storage.characterCount.characters();
+      onUpdateCounts(words, chars); // Pass the updated counts to the parent
+    }
+  }, [editorHTML]);
+
+  const percentage = editor
+    ? Math.round(100 * editor.storage.characterCount.characters())
+    : 0;
 
   return (
     <div className="editor">
@@ -367,11 +437,17 @@ const Editor = () => {
       )}
 
       {/* Editor Content */}
-      <EditorContent editor={editor} className="tiptap" />
+      <EditorContent editor={editor} className="tiptap" onBlur={handleBlur} />
       {/* Render HTML content below the editor */}
       <div className="editor-html-preview">
         <h3>HTML Output:</h3>
         <pre>{editorHTML}</pre>
+      </div>
+
+      <div className="character-count">
+        {editor.storage.characterCount.characters()} characters
+        <br />
+        {editor.storage.characterCount.words()} words
       </div>
     </div>
   );

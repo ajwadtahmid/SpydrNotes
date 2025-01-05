@@ -1,39 +1,75 @@
-/* Home.css */
-.home-container {
+/* Sidebar styles */
+.sidebar-container {
+  width: 250px; /* Fixed width for sidebar */
+  height: 100vh; /* Full screen height */
+  background-color: #f8f9fa;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  align-items: flex-start; /* Align items at the top */
+  flex-direction: column;
+  justify-content: flex-start; /* Align content to the top */
+  padding: 20px 15px; /* Add some padding for spacing */
+  position: fixed; /* Stick to the left */
+  left: 0;
+  top: 0;
+  z-index: 20; /* Ensure it stays above other elements */
+  overflow-y: auto; /* Add scrolling for overflow content */
+  transition: transform 0.3s ease-in-out; /* Smooth toggle animation */
 }
 
+.sidebar-hidden {
+  transform: translateX(-100%); /* Move sidebar off the screen when hidden */
+}
+
+/* Main content styles */
 .home-main-content {
   flex: 1;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Stack children vertically */
+  flex-direction: column;
+  background-color: #ffffff;
+  transition: margin-left 0.3s ease-in-out; /* Smooth adjustment when sidebar toggles */
 }
 
+.home-main-content.with-sidebar {
+  margin-left: 250px; /* Add margin when the sidebar is visible */
+}
+
+.home-main-content.no-sidebar {
+  margin-left: 0; /* Reset margin when the sidebar is hidden */
+}
+
+/* Navbar styles */
+.navbar {
+  position: sticky; /* Keeps the navbar fixed at the top */
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff; /* Set background color */
+  box-shadow: none; /* Remove shadow */
+  z-index: 10; /* Ensure it's above all other elements */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  border: none; /* Remove any border */
+}
+
+/* Remove unnecessary padding inside Navbar */
+.navbar-collapse {
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar text styling */
+.navbar-text {
+  display: flex;
+  gap: 10px; /* Space between word and character count */
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Sidebar toggle button */
 .home-toggle-btn {
-  margin-top: 0;
-  margin-bottom: 20px;
   border: none;
   background: none;
+  padding: 0;
   cursor: pointer;
-}
-
-.home-toggle-btn img {
-  width: 30px;
-  height: 30px;
-}
-
-h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: left;
-}
-
-.editor-title {
-  margin-bottom: 20px;
-}
-
-.editor-container {
-  flex: 1;
 }
