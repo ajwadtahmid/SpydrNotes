@@ -39,8 +39,6 @@ const EditorTitle = ({ noteId, noteTitle = "Untitled" }) => {
     setIsDirty(false); // Reset dirty flag when a new note is loaded
   }, [noteTitle]);
 
-  
-
   return (
     <div className="title-editor">
       <input
@@ -55,31 +53,3 @@ const EditorTitle = ({ noteId, noteTitle = "Untitled" }) => {
 };
 
 export default EditorTitle;
-
-
-
-
-// import React, { useState } from "react";
-// import "./EditorTitle.css";
-
-// const EditorTitle = () => {
-//   const [title, setTitle] = useState("");
-
-//   const handleChange = (event) => {
-//     setTitle(event.target.value);
-//   };
-
-//   return (
-//     <div className="title-editor">
-//       <input
-//         type="text"
-//         value={title}
-//         onChange={handleChange}
-//         placeholder="Type your title..."
-//         className="title-input"
-//       />
-//     </div>
-//   );
-// };
-
-// export default EditorTitle;

@@ -62,10 +62,6 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
       PlaceHolder,
       CharacterCount,
     ],
-    // content: `
-    //   <h2>Welcome to the Editor</h2>
-    //   <p>Try out the various features in the toolbar.</p>
-    // `,
     content,
     onUpdate: ({ editor }) => {
       // Update the HTML content whenever the editor changes
@@ -435,20 +431,8 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
           </button>
         </BubbleMenu>
       )}
-
       {/* Editor Content */}
       <EditorContent editor={editor} className="tiptap" onBlur={handleBlur} />
-      {/* Render HTML content below the editor */}
-      <div className="editor-html-preview">
-        <h3>HTML Output:</h3>
-        <pre>{editorHTML}</pre>
-      </div>
-
-      <div className="character-count">
-        {editor.storage.characterCount.characters()} characters
-        <br />
-        {editor.storage.characterCount.words()} words
-      </div>
     </div>
   );
 };
