@@ -22,6 +22,7 @@ import sidebarFoldIcon from "./sidebar-fold.svg";
 import fileTextIcon from "./file-text.svg";
 import fileAddIcon from "./file-add.svg";
 import trashBinIcon from "./delete-bin-line.svg";
+import avatarIcon from "./avatar.jpeg";
 
 const icons = {
   heading1: headingIcon1,
@@ -48,6 +49,7 @@ const icons = {
   fileText: fileTextIcon,
   fileAdd: fileAddIcon,
   trashBin: trashBinIcon,
+  avatar: avatarIcon,
 };
 
 export default icons;

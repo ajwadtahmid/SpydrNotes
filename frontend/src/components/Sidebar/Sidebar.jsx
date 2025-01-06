@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   notes,
-  username,
+  userInfo,
   onNewNote,
   toggleSidebar,
   onDeleteNote,
@@ -36,16 +36,29 @@ const Sidebar = ({
     setContextMenu(null); // Hide the context menu after an action
   };
 
+  const handleLogout = () => {
+    // Clear user session or token
+    localStorage.clear();
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
     <div className="sidebar-container" onClick={() => setContextMenu(null)}>
       <div className="sidebar-header">
-        <h4 className="sidebar-username">{username}'s Notebook</h4>
-        <button onClick={onNewNote}>
+        <h3>Sypdr Notes</h3>
+        {/* <button onClick={onNewNote}>
           <img src={icons.fileAdd} alt="New Note" />
-        </button>
+        </button> */}
         <button onClick={toggleSidebar} className="sidebar-toggle-btn">
           <img src={icons.sidebarFold} alt="Fold Sidebar" />
         </button>
+      </div>
+
+      {/* New Page Text Link */}
+      <div className="new-page-link">
+        <span onClick={onNewNote} className="new-page-text">
+          + New Page
+        </span>
       </div>
       <div className="sidebar-notes">
         <h5>Your Notes</h5>
@@ -89,6 +102,15 @@ const Sidebar = ({
           </ul>
         </div>
       )}
+      {/* Footer with Name and Username */}
+      <div className="sidebar-footer">
+        <img src={icons.avatar} alt="Profile" className="profile-avatar" />
+        <h4 className="sidebar-username">Logged in as: {userInfo?.username}</h4>
+        <p className="sidebar-footer-text">Role: Editor</p>
+        <button onClick={handleLogout} className="logout-button">
+          Log Out
+        </button>
+      </div>
     </div>
   );
 };

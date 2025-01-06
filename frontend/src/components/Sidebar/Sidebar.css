@@ -1,4 +1,4 @@
-/* Sidebar.css */
+/* Sidebar container */
 .sidebar-container {
   width: 250px;
   background-color: #f8f9fa;
@@ -7,12 +7,14 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* Spread content between top and bottom */
 }
 
+/* Sidebar header */
 .sidebar-header {
   display: flex;
-  justify-content: space-between; /* Positions text on the left and button on the right */
-  align-items: center; /* Vertically aligns items */
+  justify-content: space-between; /* Align header elements */
+  align-items: center; /* Vertically align elements */
   margin-bottom: 20px;
 }
 
@@ -22,20 +24,36 @@
   cursor: pointer;
 }
 
-/* .sidebar-toggle-btn img {
-    width: 30px;
-    height: 30px;
-  } */
-
-.sidebar-nav {
-  margin-top: 20px;
+/* New page link */
+.new-page-link {
+  margin: 10px 0;
 }
 
-.sidebar-username {
-  font-size: 1.2em;
+.new-page-text {
+  font-size: 1rem;
   font-weight: bold;
-  white-space: nowrap; /* Ensures the text doesn’t wrap to a new line */
-  padding-top: 6px;
+  color: #575e66; /* Bootstrap primary color */
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.new-page-text:hover {
+  text-decoration: underline;
+}
+
+/* Sidebar notes section */
+.sidebar-notes {
+  flex: 1; /* Take up remaining space */
+  overflow-y: auto; /* Enable scrolling for long note lists */
+}
+
+.sidebar-notes h5 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.sidebar-notes .note-item-container {
+  margin-bottom: 5px;
 }
 
 .sidebar-notes .note-item {
@@ -71,6 +89,7 @@
   cursor: pointer; /* Change cursor to pointer on hover */
 }
 
+/* Context menu */
 .context-menu {
   position: absolute;
   background-color: white;
@@ -96,4 +115,69 @@
 
 .context-menu li:hover {
   background-color: #f0f0f0;
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center all content horizontally */
+  justify-content: flex-end; /* Push everything to the bottom */
+  border-top: 1px solid #ddd;
+  padding: 10px 0; /* Add spacing */
+}
+
+/* Avatar container */
+.avatar-container {
+  display: flex;
+  justify-content: center; /* Center the avatar */
+  align-items: center;
+  margin-bottom: 10px; /* Add space below the avatar */
+}
+
+/* Profile avatar */
+.profile-avatar {
+  width: 60px; /* Set avatar size */
+  height: 60px;
+  border-radius: 50%; /* Make it circular */
+  border: 2px solid #464749; /* Optional border color */
+  object-fit: cover; /* Ensure the image fits well */
+  background-color: #f0f0f0; /* Fallback background color */
+}
+
+/* Username */
+.sidebar-username {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 5px 0;
+  text-align: center;
+}
+
+/* Footer text */
+.sidebar-footer-text {
+  font-size: 0.9rem;
+  color: #555;
+  text-align: center;
+}
+
+
+/* Logout button */
+.logout-button {
+  background-color: #ebe2e3; /* Bootstrap danger color */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0px; /* Add spacing above the button */
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #312d2d; /* Darker shade on hover */
+}
+
+.logout-button:focus {
+  outline: none;
 }

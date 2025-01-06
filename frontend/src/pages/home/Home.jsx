@@ -101,7 +101,7 @@ const Home = () => {
         }`}
       >
         <Sidebar
-          username={userInfo?.username}
+          userInfo={userInfo}
           notes={notes}
           onNewNote={handleNewNote}
           toggleSidebar={toggleSidebar}
