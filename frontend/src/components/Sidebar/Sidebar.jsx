@@ -10,6 +10,7 @@ const Sidebar = ({
   onNewNote,
   toggleSidebar,
   onDeleteNote,
+  handleDuplicateNote,
 }) => {
   const navigate = useNavigate();
   const [contextMenu, setContextMenu] = useState(null); // Store context menu state
@@ -28,11 +29,12 @@ const Sidebar = ({
     });
   };
 
-  const handleMenuAction = (action) => {
+  const handleMenuAction = async (action) => {
     if (action === "delete") {
       onDeleteNote(selectedNoteId);
+    } else if (action === "duplicate") {
+      await handleDuplicateNote(selectedNoteId); // Call the duplicate function
     }
-    // Handle other actions (e.g., Cut, Copy, Paste) here
     setContextMenu(null); // Hide the context menu after an action
   };
 
@@ -95,9 +97,7 @@ const Sidebar = ({
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
           <ul>
-            <li onClick={() => handleMenuAction("cut")}>Cut</li>
-            <li onClick={() => handleMenuAction("copy")}>Copy</li>
-            <li onClick={() => handleMenuAction("paste")}>Paste</li>
+            <li onClick={() => handleMenuAction("duplicate")}>Duplicate</li>
             <li onClick={() => handleMenuAction("delete")}>Delete</li>
           </ul>
         </div>

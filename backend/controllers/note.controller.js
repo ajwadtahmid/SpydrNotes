@@ -1,42 +1,25 @@
 import User from "../models/user.model.js";
 import Note from "../models/note.model.js";
 
-// export const createNote = async (req, res) => {
-//     try {
-//         const newNote = new Note({
-//             title: "Untitled",
-//             body: "",
-//         })
-
-//         if (newNote) {
-//             await newNote.save(); // save the new note to the database
-//             res.redirect(`/notes/update/${newNote._id}`); // redirect to the update page of the new note
-//         } else {
-//             res.status(400).json({ error: "Unable to create new note" });
-//         }
-//     } catch (error) {
-//         console.log("Error in createNote controller: ", error.message);
-//         res.status(500).json({ error: "Internal Server Error" });
-//     }
-// };
-
 export const createNote = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming req.user contains the logged-in user's details
+    const userId = req.user._id;
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
+    // Use provided title and body or default if not provided
+    const { title, body } = req.body;
     const newNote = new Note({
-      title: "Untitled",
-      body: "",
+      title: title || "Untitled",
+      body: body || "",
     });
 
     if (newNote) {
       await newNote.save();
-      user.notes.push(newNote._id);
+      user.notes.push(newNote._id); // Add the new note to user's notes
       await user.save();
       res
         .status(201)
