@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import spydrLogo from "../../assets/spydrnotesLogo.webp";
+import spydrLogo from "../../assets/spydrnotesLogo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import PasswordInput from "../../components/Input/PasswordInput";

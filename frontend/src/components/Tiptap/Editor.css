@@ -145,16 +145,18 @@
 
 /* Ensure the editor content is nicely spaced */
 .tiptap {
-  border: 1px solid var(--gray-2);
+  margin-top: 0; /* Remove margin above the editor */
+  padding-top: 0; /* Reduce padding inside the editor if any */
+  border: 1px solid var(--gray-2); /* Keep the border intact */
   border-radius: 6px;
-  padding: 1rem;
+  padding: 1rem; /* Keep padding for inner content spacing */
   background: var(--white, #fff);
   min-height: 200px;
   font-family: "Arial", sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  /* outline: none; */
 }
+
 
 .bubble-menu {
   background-color: white;
