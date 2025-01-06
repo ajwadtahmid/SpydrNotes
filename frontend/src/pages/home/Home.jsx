@@ -83,6 +83,15 @@ const Home = () => {
     }
   }, [noteId]);
 
+    // Set the tab title to the note's title or a default value
+    useEffect(() => {
+      if (note) {
+        document.title = note.title || "Untitled Note"; // Default to "Untitled Note" if no title exists
+      } else {
+        document.title = "Loading Note..."; // Default while loading
+      }
+    }, [note]);
+
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
