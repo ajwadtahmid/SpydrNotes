@@ -27,6 +27,7 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
   const [selectedHierarchy, setSelectedHierarchy] = useState(icons.heading1);
   const [selectedAlignment, setSelectedAlignment] = useState(icons.alignLeft);
   const [selectedList, setSelectedList] = useState(icons.bulletList);
+  const [selectedUndoRedo, setSelectedUndoRedo] = useState(icons.undo);
   const colorInputRef = useRef(null);
   const [editorHTML, setEditorHTML] = useState(content);
   const [debouncedContent, setDebouncedContent] = useState(content);
@@ -143,62 +144,27 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
       {/* Bubble Menu */}
       {editor && (
         <BubbleMenu editor={editor} className="bubble-menu">
-          {/* Inline Formatting Buttons */}
-          <button onClick={() => editor.chain().focus().toggleBold().run()}>
-            <img src={icons.bold} alt="Bold" />
-          </button>
-          <button onClick={() => editor.chain().focus().toggleItalic().run()}>
-            <img src={icons.italic} alt="Italic" />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-          >
-            <img src={icons.underline} alt="Underline" />
-          </button>
-          <button onClick={() => editor.chain().focus().toggleStrike().run()}>
-            <img src={icons.strikethrough} alt="Strike" />
-          </button>
-          <button onClick={() => editor.chain().focus().toggleCode().run()}>
-            <img src={icons.code} alt="Code" />
-          </button>
-
-          {/* Heading Dropdown */}
+          {/* List Dropdown */}
           <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-heading">
-              <img src={selectedHierarchy} alt="Heading" />
+            <Dropdown.Toggle variant="secondary" id="dropdown-list">
+              <img src={selectedList} alt="List" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleHeading({ level: 1 }).run();
-                  setSelectedHierarchy(icons.heading1);
+                  editor.chain().focus().toggleBulletList().run();
+                  setSelectedList(icons.bulletList);
                 }}
               >
-                <img src={icons.heading1} alt="Heading 1" />
+                <img src={icons.bulletList} alt="Bullet List" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleHeading({ level: 2 }).run();
-                  setSelectedHierarchy(icons.heading2);
+                  editor.chain().focus().toggleOrderedList().run();
+                  setSelectedList(icons.orderedList);
                 }}
               >
-                <img src={icons.heading2} alt="Heading 2" />
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  editor.chain().focus().toggleHeading({ level: 3 }).run();
-                  setSelectedHierarchy(icons.heading3);
-                }}
-              >
-                <img src={icons.heading3} alt="Heading 3" />
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  editor.chain().focus().toggleHeading({ level: 4 }).run();
-                  setSelectedHierarchy(icons.heading4);
-                }}
-              >
-                <img src={icons.heading4} alt="Heading 4" />
+                <img src={icons.orderedList} alt="Ordered List" />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -352,30 +318,79 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* List Dropdown */}
+          {/* Heading Dropdown */}
           <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-list">
-              <img src={selectedList} alt="List" />
+            <Dropdown.Toggle variant="secondary" id="dropdown-heading">
+              <img src={selectedHierarchy} alt="Heading" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleBulletList().run();
-                  setSelectedList(icons.bulletList);
+                  editor.chain().focus().toggleHeading({ level: 1 }).run();
+                  setSelectedHierarchy(icons.heading1);
                 }}
               >
-                <img src={icons.bulletList} alt="Bullet List" />
+                <img src={icons.heading1} alt="Heading 1" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleOrderedList().run();
-                  setSelectedList(icons.orderedList);
+                  editor.chain().focus().toggleHeading({ level: 2 }).run();
+                  setSelectedHierarchy(icons.heading2);
                 }}
               >
-                <img src={icons.orderedList} alt="Ordered List" />
+                <img src={icons.heading2} alt="Heading 2" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 3 }).run();
+                  setSelectedHierarchy(icons.heading3);
+                }}
+              >
+                <img src={icons.heading3} alt="Heading 3" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().toggleHeading({ level: 4 }).run();
+                  setSelectedHierarchy(icons.heading4);
+                }}
+              >
+                <img src={icons.heading4} alt="Heading 4" />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
+
+              {/* Separator */}
+    <span className="bubble-menu-separator">|</span>
+
+          {/* Inline Formatting Buttons */}
+          <button onClick={() => editor.chain().focus().toggleBold().run()}>
+            <img src={icons.bold} alt="Bold" />
+          </button>
+          <button onClick={() => editor.chain().focus().toggleItalic().run()}>
+            <img src={icons.italic} alt="Italic" />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+          >
+            <img src={icons.underline} alt="Underline" />
+          </button>
+
+          <span className="bubble-menu-separator">|</span>
+          
+          <button onClick={() => editor.chain().focus().toggleStrike().run()}>
+            <img src={icons.strikethrough} alt="Strike" />
+          </button>
+          <button onClick={() => editor.chain().focus().toggleCode().run()}>
+            <img src={icons.code} alt="Code" />
+          </button>
+
+          {/* Highlight Button */}
+          <HighlightButton editor={editor} icons={icons} />
+
+          {/* Color Button */}
+          <TextColorButton editor={editor} icons={icons} />
+
+          <span className="bubble-menu-separator">|</span>
 
           {/* Text Alignment Dropdown */}
           <Dropdown>
@@ -410,25 +425,32 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Highlight Button */}
-          <HighlightButton editor={editor} icons={icons} />
-
-          {/* Color Button */}
-          <TextColorButton editor={editor} icons={icons} />
-
-          {/* Undo/Redo */}
-          <button
-            onClick={() => editor.chain().focus().undo().run()}
-            disabled={!editor.can().undo()}
-          >
-            <img src={icons.undo} alt="Undo" />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().redo().run()}
-            disabled={!editor.can().redo()}
-          >
-            <img src={icons.redo} alt="Redo" />
-          </button>
+          {/* Undo/Redo Dropdown */}
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-undo-redo">
+              <img src={selectedUndoRedo} alt="Undo/Redo" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().undo().run();
+                  setSelectedUndoRedo(icons.undo); // Set selected action to Undo
+                }}
+                disabled={!editor.can().undo()} // Disable if Undo is not possible
+              >
+                <img src={icons.undo} alt="Undo" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().redo().run();
+                  setSelectedUndoRedo(icons.redo); // Set selected action to Redo
+                }}
+                disabled={!editor.can().redo()} // Disable if Redo is not possible
+              >
+                <img src={icons.redo} alt="Redo" />
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </BubbleMenu>
       )}
       {/* Editor Content */}

@@ -170,8 +170,12 @@
   width: fit-content;
 }
 
+/* Center icons in buttons */
 .bubble-menu button {
-  padding: 0.25rem 0.5rem;
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  padding: 0.25rem; /* Adjust padding to match the layout */
   font-size: 0.9rem;
   border: none;
   background: #f4f4f4;
@@ -183,8 +187,9 @@
 }
 
 .bubble-menu button img {
-  width: 16px; /* Adjust width */
-  height: 16px; /* Adjust height */
+  width: 16px; /* Icon width */
+  height: 16px; /* Icon height */
+  margin: 0; /* Remove any margin */
 }
 
 .bubble-menu button.is-active {
@@ -217,4 +222,17 @@
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.bubble-menu-separator {
+  margin: 0 0rem; /* Adjust spacing between items */
+  color: #ccc; /* Gray color for the separator */
+  font-size: 1.2rem; /* Adjust the size of the separator */
+  display: inline-block;
+}
+
+.tiptap:focus {
+  outline: none;
+  border-color: transparent; /* Or your default border color */
+  box-shadow: none; /* Remove focus shadow, if any */
 }
