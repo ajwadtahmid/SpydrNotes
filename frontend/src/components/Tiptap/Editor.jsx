@@ -144,27 +144,36 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
       {/* Bubble Menu */}
       {editor && (
         <BubbleMenu editor={editor} className="bubble-menu">
-          {/* List Dropdown */}
-          <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-list">
-              <img src={selectedList} alt="List" />
+
+                    {/* Text Alignment Dropdown */}
+                    <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-alignment">
+              <img src={selectedAlignment} alt="Text Alignment" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleBulletList().run();
-                  setSelectedList(icons.bulletList);
+                  editor.chain().focus().setTextAlign("left").run();
+                  setSelectedAlignment(icons.alignLeft);
                 }}
               >
-                <img src={icons.bulletList} alt="Bullet List" />
+                <img src={icons.alignLeft} alt="Align Left" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().toggleOrderedList().run();
-                  setSelectedList(icons.orderedList);
+                  editor.chain().focus().setTextAlign("center").run();
+                  setSelectedAlignment(icons.alignCenter);
                 }}
               >
-                <img src={icons.orderedList} alt="Ordered List" />
+                <img src={icons.alignCenter} alt="Align Center" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  editor.chain().focus().setTextAlign("right").run();
+                  setSelectedAlignment(icons.alignRight);
+                }}
+              >
+                <img src={icons.alignRight} alt="Align Right" />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -359,8 +368,8 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
             </Dropdown.Menu>
           </Dropdown>
 
-              {/* Separator */}
-    <span className="bubble-menu-separator">|</span>
+          {/* Separator */}
+          <span className="bubble-menu-separator">|</span>
 
           {/* Inline Formatting Buttons */}
           <button onClick={() => editor.chain().focus().toggleBold().run()}>
@@ -376,7 +385,6 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
           </button>
 
           <span className="bubble-menu-separator">|</span>
-          
           <button onClick={() => editor.chain().focus().toggleStrike().run()}>
             <img src={icons.strikethrough} alt="Strike" />
           </button>
@@ -392,35 +400,27 @@ const Editor = ({ noteId, content = "", onUpdateCounts }) => {
 
           <span className="bubble-menu-separator">|</span>
 
-          {/* Text Alignment Dropdown */}
+          {/* List Dropdown */}
           <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-alignment">
-              <img src={selectedAlignment} alt="Text Alignment" />
+            <Dropdown.Toggle variant="secondary" id="dropdown-list">
+              <img src={selectedList} alt="List" />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().setTextAlign("left").run();
-                  setSelectedAlignment(icons.alignLeft);
+                  editor.chain().focus().toggleBulletList().run();
+                  setSelectedList(icons.bulletList);
                 }}
               >
-                <img src={icons.alignLeft} alt="Align Left" />
+                <img src={icons.bulletList} alt="Bullet List" />
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  editor.chain().focus().setTextAlign("center").run();
-                  setSelectedAlignment(icons.alignCenter);
+                  editor.chain().focus().toggleOrderedList().run();
+                  setSelectedList(icons.orderedList);
                 }}
               >
-                <img src={icons.alignCenter} alt="Align Center" />
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  editor.chain().focus().setTextAlign("right").run();
-                  setSelectedAlignment(icons.alignRight);
-                }}
-              >
-                <img src={icons.alignRight} alt="Align Right" />
+                <img src={icons.orderedList} alt="Ordered List" />
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
